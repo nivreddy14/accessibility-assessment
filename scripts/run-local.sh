@@ -14,10 +14,15 @@ docker run --cpus 3  \
     -p 6010:6010 \
     accessibility-assessment:SNAPSHOT
 
-# For local development, include the commented out line below (which mounts ./app
+# For local development, include a mount similar to one of the commented out lines
+#    below (which mount various files/folders within the ./app directory)
 #    within the image).
+#
+#    Be aware that if you mount the entire app/ directory you will include the application's
+#    ${PROJECT_DIR}/app/node_modules .  This may result in an incompatibility between
+#    the node modules required by the image's linux dist, versus those required by your
+#    local development environment (i.e. OSX)
 
-# -v ${PROJECT_DIR}/app:/home/seluser/app \
-
-#to pull down an image from artefactory
-#artefacts.tax.service.gov.uk/accessibility-assessment:0.15.0
+# -v ${PROJECT_DIR}/app/routes:/home/seluser/app/routes \
+# -v ${PROJECT_DIR}/app/app.js:/home/seluser/app/app.js \
+# -v ${PROJECT_DIR}/app/services/globals.js:/home/seluser/app/services/globals.js \

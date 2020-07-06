@@ -29,7 +29,7 @@
 			"response": []
 		},
 		{
-			"name": "Get URL Logs",
+			"name": "Get captured URLs",
 			"request": {
 				"method": "GET",
 				"header": [],
