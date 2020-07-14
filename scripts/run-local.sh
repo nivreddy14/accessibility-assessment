@@ -26,3 +26,4 @@ docker run --cpus 3  \
 # -v ${PROJECT_DIR}/app/routes:/home/seluser/app/routes \
 # -v ${PROJECT_DIR}/app/app.js:/home/seluser/app/app.js \
 # -v ${PROJECT_DIR}/app/services/globals.js:/home/seluser/app/services/globals.js \
+# -v ${PROJECT_DIR}/pages:/home/seluser/pages \

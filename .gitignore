@@ -27,3 +27,5 @@ app/pages
 app/accessibility-assessment-service.log
 app/global-filters.conf
 output/
+/pages/
+/test/elk/esdata/
