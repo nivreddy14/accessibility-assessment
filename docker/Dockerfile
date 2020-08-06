@@ -1,4 +1,4 @@
-FROM selenium/node-chrome:3.141.59-20200525
+FROM selenium/node-chrome:3.141.59-20200730
 
 ENV CAPTURE_ALL_PAGES false
 ENV APP_PORT 6010
