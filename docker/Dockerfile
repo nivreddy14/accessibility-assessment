@@ -1,5 +1,5 @@
 ARG DOCKERHUB=dockerhub.tax.service.gov.uk
-FROM ${DOCKERHUB}/selenium/node-chrome:3.141.59-20200826
+FROM ${DOCKERHUB}/selenium/node-chrome:3.141.59-20201119
 
 ENV CAPTURE_ALL_PAGES false
 ENV APP_PORT 6010
