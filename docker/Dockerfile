@@ -38,7 +38,7 @@ RUN   cd ${HOME} \
       && mv .nvmrc.bk .nvmrc \
       && nvm install \
       && npm upgrade \
-      && npm install axe-cli@${NPM_AXE_CLI_VERSION} -g \
+      && npm install axe-cli@${NPM_AXE_CLI_VERSION} -g --detect_chromedriver_version \
       && cd ${HOME} \
       && npm install vnu-jar@${NPM_VNU_VERSION} -g \
       && cd ${HOME}/app \
