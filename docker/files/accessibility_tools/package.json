@@ -1,0 +1,11 @@
+{
+  "name": "accessibility_tools",
+  "description": "Specifies the specific versions of accessibility tools to be used in the accessibility-assessment image.",
+  "version": "1.0.0",
+  "dependencies": {
+    "axe-cli": "3.2.1",
+    "axe-core": "3.2.2",
+    "axe-webdriverjs": "2.2.0",
+    "vnu-jar": "20.5.29"
+  }
+}

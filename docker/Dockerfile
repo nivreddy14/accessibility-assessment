@@ -16,19 +16,19 @@ USER root
 WORKDIR ${HOME}
 
 COPY --chown=seluser:seluser files/start.sh ${HOME}/start.sh
-COPY --chown=seluser:seluser files/tools ${HOME}/tools
+COPY --chown=seluser:seluser files/accessibility_tools ${HOME}/accessibility_tools
 COPY --chown=seluser:seluser files/app ${HOME}/app
 
 RUN sudo chmod 755 ${HOME}/start.sh \
-      && sudo chmod -R 755 ${HOME}/tools \
+      && sudo chmod -R 755 ${HOME}/accessibility_tools \
       && sudo chmod -R 755 ${HOME}/app \
       && sudo mkdir ${HOME}/output \
       && sudo chmod 755 ${HOME}/output \
       && sudo chown -R seluser:seluser ${HOME}/output \
       && sudo mkdir $NVM_DIR \
       && sudo chown seluser:seluser $NVM_DIR \
-      && sudo echo -e '#!/bin/bash\njava -jar ${HOME}/tools/node_modules/vnu-jar/build/dist/vnu.jar "$@"' > /usr/bin/vnu \
-      && sudo echo -e '#!/bin/bash\n cd ${HOME}/tools \n npx axe "$@"' > /usr/bin/axe \
+      && sudo echo -e '#!/bin/bash\njava -jar ${HOME}/accessibility_tools/node_modules/vnu-jar/build/dist/vnu.jar "$@"' > /usr/bin/vnu \
+      && sudo echo -e '#!/bin/bash\n cd ${HOME}/accessibility_tools \n npx axe "$@"' > /usr/bin/axe \
       && chmod +x /usr/bin/vnu \
       && chmod +x /usr/bin/axe
 
@@ -42,7 +42,7 @@ RUN   cd ${HOME} \
       && mv .nvmrc.bk .nvmrc \
       && nvm install \
       && npm upgrade \
-      && cd ${HOME}/tools \
+      && cd ${HOME}/accessibility_tools \
       && npm install \
       && cd ${HOME}/app \
       && npm install
