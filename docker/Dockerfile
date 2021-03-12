@@ -16,17 +16,21 @@ USER root
 WORKDIR ${HOME}
 
 COPY --chown=seluser:seluser files/start.sh ${HOME}/start.sh
+COPY --chown=seluser:seluser files/tools ${HOME}/tools
 COPY --chown=seluser:seluser files/app ${HOME}/app
 
 RUN sudo chmod 755 ${HOME}/start.sh \
+      && sudo chmod -R 755 ${HOME}/tools \
       && sudo chmod -R 755 ${HOME}/app \
       && sudo mkdir ${HOME}/output \
       && sudo chmod 755 ${HOME}/output \
       && sudo chown -R seluser:seluser ${HOME}/output \
       && sudo mkdir $NVM_DIR \
       && sudo chown seluser:seluser $NVM_DIR \
-      && sudo echo -e '#!/bin/bash\njava -jar ${HOME}/.nvm/versions/node/v${NODE_VERSION}/lib/node_modules/vnu-jar/build/dist/vnu.jar "$@"' > /usr/bin/vnu \
-      && chmod +x /usr/bin/vnu
+      && sudo echo -e '#!/bin/bash\njava -jar ${HOME}/tools/node_modules/vnu-jar/build/dist/vnu.jar "$@"' > /usr/bin/vnu \
+      && sudo echo -e '#!/bin/bash\n cd ${HOME}/tools \n npx axe "$@"' > /usr/bin/axe \
+      && chmod +x /usr/bin/vnu \
+      && chmod +x /usr/bin/axe
 
 USER seluser
 
@@ -38,9 +42,8 @@ RUN   cd ${HOME} \
       && mv .nvmrc.bk .nvmrc \
       && nvm install \
       && npm upgrade \
-      && npm install axe-cli@${NPM_AXE_CLI_VERSION} -g --detect_chromedriver_version \
-      && cd ${HOME} \
-      && npm install vnu-jar@${NPM_VNU_VERSION} -g \
+      && cd ${HOME}/tools \
+      && npm install \
       && cd ${HOME}/app \
       && npm install
 
