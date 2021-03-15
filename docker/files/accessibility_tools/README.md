@@ -10,18 +10,6 @@ version before installing a new version.
 
 Further information on this npm config property can be found here https://www.npmjs.com/package/chromedriver
 
-### Updating chromedriver
-To update the chromedriver version used, modify the node-chrome version specified at the 
-top of the [DockerFile](../../Dockerfile). 
-
-For example changing from chromedriver 87:
-`FROM ${DOCKERHUB}/selenium/node-chrome:3.141.59-20201119`
-
-To chromedriver 88:
-`FROM ${DOCKERHUB}/selenium/node-chrome:3.141.59-20210128`
-
-New chromedriver releases can be found within [SeleniumHQ](https://github.com/SeleniumHQ/docker-selenium/releases).
-
 ## package.json
 The contents within this file is used to specify specific versions of axe and vnu to be used within the 
 accessibility-assessment image.

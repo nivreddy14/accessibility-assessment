@@ -27,8 +27,10 @@ RUN sudo chmod 755 ${HOME}/start.sh \
       && sudo chown -R seluser:seluser ${HOME}/output \
       && sudo mkdir $NVM_DIR \
       && sudo chown seluser:seluser $NVM_DIR \
+      # The below makes axe and vnu available within the command line
+      # by creating a shell script within the /usr/bin/ folder
       && sudo echo -e '#!/bin/bash\njava -jar ${HOME}/accessibility_tools/node_modules/vnu-jar/build/dist/vnu.jar "$@"' > /usr/bin/vnu \
-      && sudo echo -e '#!/bin/bash\n cd ${HOME}/accessibility_tools \n npx axe "$@"' > /usr/bin/axe \
+      && sudo echo -e '#!/bin/bash\n cd ${HOME}/accessibility_tools;npx axe "$@"' > /usr/bin/axe \
       && chmod +x /usr/bin/vnu \
       && chmod +x /usr/bin/axe
 
