@@ -18,6 +18,10 @@ push_image: ## Push the docker image to artifactory
 	@docker push artefacts.tax.service.gov.uk/accessibility-assessment:$$(cat .version)
 	@pipenv run cut-release
 
+push_latest: ## Push latest tag to artifactory
+	@docker tag artefacts.tax.service.gov.uk/accessibility-assessment:$$(cat .version) artefacts.tax.service.gov.uk/accessibility-assessment:latest
+	@docker push artefacts.tax.service.gov.uk/accessibility-assessment:latest
+
 prep_version_incrementor:
 	@echo "Renaming requirements to prevent pipenv trying to convert it"
 	@echo "Installing version-incrementor with pipenv"
