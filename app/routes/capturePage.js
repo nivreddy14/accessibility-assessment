@@ -8,6 +8,7 @@ const { applicationStatus } = require('../services/globals')
 
 var testOnlyRegEx = RegExp('test\-only');
 var stubRegEx = RegExp('http:\/\/localhost:[0-9]{4}\/([a-z/-]+\-stub)');
+var allowListRegex = RegExp('http:\/\/localhost:[0-9]{4}\/(secure-message-stub)');
 var htmlContentRegEx = RegExp('<\\s*html[^>]*>([\\s\\S]*?)<\\s*\/\\s*html>');
 
 router.post('/', (req, res, next) => {
@@ -19,11 +20,11 @@ router.post('/', (req, res, next) => {
 
   //Capture the page for assessment if:
   //   - it hasn't already been captured and onePagePerPath is true
-  //   - the page urls does not contain the text 'stub'
+  //   - the page url matches allowListRegex or does not contain the text 'stub'
   //   - the page is not test-only
   //   - the page contains valid HTML tags
   if((config.captureAllPages === 'true' || !global.capturedUrls.includes(body.pageURL))
-      && !stubRegEx.test(body.pageURL)
+      && (allowListRegex.test(body.pageURL) || !stubRegEx.test(body.pageURL))
       && !testOnlyRegEx.test(body.pageURL)
       && htmlContentRegEx.test(body.pageHTML)){
 
@@ -41,12 +42,12 @@ router.post('/', (req, res, next) => {
         logger.log('INFO', `Captured ${fileName} for ${body.pageURL}`)
       })
     })
+    applicationStatus('PAGES_CAPTURED')
   } else {
     if(!global.capturedUrls.includes(body.pageURL) && !global.excludedUrls.includes(body.pageURL) ) {
       exclude(body.pageURL)
     }
   }
-  applicationStatus('PAGES_CAPTURED')
   res.status('201').send()
 })
 
