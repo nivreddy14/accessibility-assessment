@@ -18,7 +18,7 @@ push_image: ## Push the docker image to artifactory
 	@docker push artefacts.tax.service.gov.uk/accessibility-assessment:$$(cat .version)
 	@pipenv run cut-release
 
-push_labs_tag: ## Push latest tag to artifactory
+push_labs: ## Push latest tag to artifactory
 	@docker tag artefacts.tax.service.gov.uk/accessibility-assessment:$$(cat .version) artefacts.tax.service.gov.uk/accessibility-assessment:labs
 	@docker push artefacts.tax.service.gov.uk/accessibility-assessment:labs
 
