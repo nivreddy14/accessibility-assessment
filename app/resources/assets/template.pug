@@ -31,6 +31,9 @@ html(lang="en")
               dd=tool.pageCount
 
     article
+      button(class='button show-error') Show Only Errors
+      button(class='button hide-known-issues') Hide Known Issues
+      button(class='button show-all') Show All
       h2 Violations
       nav.tabs
         ul
@@ -54,7 +57,9 @@ html(lang="en")
               each path in tool.paths
                 each page in path.pages
                   each violation in page.violations
-                    tr
+                    - var alertLevel = violation.alertLevel.toLowerCase()
+                    - var violationType = violation.govUkKnownIssue? 'violation--known-'+ alertLevel : 'violation--'+ alertLevel
+                    tr(class=violationType)
                       td.path
                         a(href=violation.capturedPage,target='_blank') #{path.path}
                       td.code
