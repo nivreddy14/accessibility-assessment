@@ -284,12 +284,12 @@ A jar published by [page-accessibility-check](https://github.com/hmrc/page-acces
 
 
 ## Running accessibility-assessment tests locally
-When running locally, this uses the latest available version of the accessibility-assessment 
-Docker image in Artifactory, which is also the version used in Jenkins.
+To run accessibility-assessment tests locally, you can use the latest available version of the accessibility-assessment Docker image from Artifactory. 
+This is also the version used in Build Jenkins.
 
 > ### Prerequisite:
 >In order to run the accessibility-assessment tests locally you will need to ensure:
->1. webdriver-factory 0.20.0 or later is specified within your UI journey test repositories dependencies
+>1. webdriver-factory 0.20.0 or later is used within your UI journey test repository dependencies
 >2. You have started the services that should be tested
 
 ### Running the tests:
