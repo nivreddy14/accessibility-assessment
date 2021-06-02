@@ -5,7 +5,7 @@ At present the image is made up of the following components:
 - **accessibility-assessment-service**
 - **page-accessibility-check**
 
-## accessibility-assessment-service
+## accessibility-assessment service
 A [node express](https://expressjs.com/) service exposing endpoints for orchestrating page assessment. The service 
 is available at http://localhost:6010.
 
@@ -281,6 +281,38 @@ Content-Length →0
 A jar published by [page-accessibility-check](https://github.com/hmrc/page-accessibility-check) which wraps execution of axe
  and vnu assessments against a collection of pages. accessibility-assessment-service triggers this jar to run the assessment
   once pages have been captured.
+
+
+## Running accessibility-assessment tests locally
+To run accessibility-assessment tests locally, you can use the latest available version of the accessibility-assessment Docker image from Artifactory. 
+This is also the version used in Build Jenkins.
+
+> ### Prerequisite:
+>In order to run the accessibility-assessment tests locally you will need to ensure:
+>1. webdriver-factory 0.20.0 or later is used within your UI journey test repository dependencies
+>2. You have started the services that should be tested
+
+### Running the tests:
+1. Run locally the latest available version of the accessibility-assessment Docker image from Artifactory:
+```
+   A11Y='artefacts.tax.service.gov.uk/accessibility-assessment:latest'
+   docker pull ${A11Y} && docker run --rm --name 'a11y' -p 6010:6010 -e TARGET_IP='host.docker.internal' ${A11Y}
+```
+
+2. In order to configure the accessibility tests to run you will need to pass a 
+   system property `accessibility-test=true`.
+
+e.g. `sbt -Dbrowser='chrome' -Denvironment='local' -Daccessibility-test=true 'testOnly uk.gov.hmrc.test.ui.specs.*'`
+
+3. Next, [trigger the assessment endpoint](#post-apiassess-pages).
+   This will assess the pages which have been captured. 
+   
+   Depending on the number of pages being assessed this can take a little while.
+   You can find out the status of the accessibility-assessment at anytime by [querying the status endpoint](#get-apistatus).
+
+
+4. Finally, [get the report](#get-apireport) to see any violations which have been found.
+
 
 # Building the Image in CI
 The [Makefile](Makefile) at the root of this project is used by Jenkins to build and publish new versions of this image to artefactory for use in CI.
