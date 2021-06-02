@@ -284,13 +284,12 @@ A jar published by [page-accessibility-check](https://github.com/hmrc/page-acces
 
 
 ## Running accessibility-assessment tests locally
-In case you want to run accessibility-assessment tests before you push your changes, there is an option to run
-accessibility-assessment tests locally on your development machine. When running locally, this uses the latest 
-available version of the accessibility-assessment Docker image in Artifactory, which is also the version used in Jenkins.
+When running locally, this uses the latest available version of the accessibility-assessment 
+Docker image in Artifactory, which is also the version used in Jenkins.
 
 > ### Prerequisite:
 >In order to run the accessibility-assessment tests locally you will need to ensure:
->1. webdriver-factory 0.20.0 or later is specified within your repositories dependencies
+>1. webdriver-factory 0.20.0 or later is specified within your UI journey test repositories dependencies
 >2. You have started the services that should be tested
 
 ### Running the tests:
@@ -300,13 +299,16 @@ available version of the accessibility-assessment Docker image in Artifactory, w
    docker pull ${A11Y} && docker run --rm --name 'a11y' -p 6010:6010 -e TARGET_IP='host.docker.internal' ${A11Y}
 ```
 
-2. When you run your UI journey tests, in order to configure the accessibility tests to run you will need to pass a 
+2. In order to configure the accessibility tests to run you will need to pass a 
    system property `accessibility-test=true`.
 
 e.g. `sbt -Dbrowser='chrome' -Denvironment='local' -Daccessibility-test=true 'testOnly uk.gov.hmrc.test.ui.specs.*'`
 
-3.  Next, [trigger the assessment endpoint](#post-apiassess-pages). 
-   This will assess the pages which have been captured.
+3. Next, [trigger the assessment endpoint](#post-apiassess-pages).
+   This will assess the pages which have been captured. 
+   
+   Depending on the number of pages being assessed this can take a little while.
+   You can find out the status of the accessibility-assessment at anytime by [querying the status endpoint](#get-apistatus).
 
 
 4. Finally, [get the report](#get-apireport) to see any violations which have been found.
