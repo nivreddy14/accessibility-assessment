@@ -21,7 +21,7 @@ dist
 # project specific
 test/elk-stack/esdata/*
 docker/files/accessibility-assessment-service
-app/node_modules
+accessibility-assessment-service/node_modules
 app/output
 app/pages
 app/accessibility-assessment-service.log
