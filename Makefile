@@ -1,13 +1,29 @@
 SHELL := /usr/bin/env bash
 PYTHON_VERSION := $(shell cat .python-version)
 
-.PHONY: check_docker build_local build authenticate_to_artifactory push_image prep_version_incrementor clean help compose
+.PHONY: check_docker copy_files clean_local build_local run_local stop_local build authenticate_to_artifactory push_image prep_version_incrementor clean help compose
 .DEFAULT_GOAL := help
 
-build_local: copy_files ## Build a local docker image
-	@echo '********** Building docker image for local use ************'
+copy_files: ## Copies files required for building image
+	@mkdir -p docker/files/accessibility-assessment-service/
+	@cp -r accessibility-assessment-service/app docker/files/accessibility-assessment-service/app
+	@cp -r accessibility-assessment-service/package.json docker/files/accessibility-assessment-service/package.json
+	@cp -r accessibility-assessment-service/package-lock.json docker/files/accessibility-assessment-service/package-lock.json
+
+clean_local: ## Clean up local environment
 	@docker rmi -f accessibility-assessment:SNAPSHOT
+	@rm -rf output/*
+	@rm -rf docker/files/accessibility-assessment-service
+
+build_local: clean_local copy_files ## Build a local docker image
+	@echo '********** Building docker image for local use ************'
 	@docker build --no-cache --tag accessibility-assessment:SNAPSHOT docker
+
+run_local: build_local ## Builds and runs the accessibility-assessment container locally
+	@docker run -d --rm --name a11y -v output:/home/seluser/output -p 6010:6010 accessibility-assessment:SNAPSHOT
+
+stop_local: ## Stops the a11y container
+	@docker stop a11y
 
 build: copy_files prep_version_incrementor ## Build the docker image
 	@echo '********** Building docker image ************'
@@ -32,13 +48,6 @@ prep_version_incrementor:
 	@pip install pipenv --upgrade
 	@pipenv --python $(PYTHON_VERSION)
 	@pipenv run pip install -i https://artefacts.tax.service.gov.uk/artifactory/api/pypi/pips/simple 'version-incrementor<2'
-
-copy_files: ## Copy files required for building image
-	@rm -rf docker/files/accessibility-assessment-service || true
-	@mkdir -p docker/files/accessibility-assessment-service/
-	@cp -r accessibility-assessment-service/app docker/files/accessibility-assessment-service/app
-	@cp -r accessibility-assessment-service/package.json docker/files/accessibility-assessment-service/package.json
-	@cp -r accessibility-assessment-service/package-lock.json docker/files/accessibility-assessment-service/package-lock.json
 
 clean: ## Remove the docker image
 	@echo '********** Cleaning up ************'
