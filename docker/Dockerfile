@@ -15,11 +15,11 @@ WORKDIR ${HOME}
 
 COPY --chown=seluser:seluser files/start.sh ${HOME}/start.sh
 COPY --chown=seluser:seluser files/accessibility_tools ${HOME}/accessibility_tools
-COPY --chown=seluser:seluser files/app ${HOME}/app
+COPY --chown=seluser:seluser files/accessibility-assessment-service ${HOME}/accessibility-assessment-service
 
 RUN sudo chmod 755 ${HOME}/start.sh \
       && sudo chmod -R 755 ${HOME}/accessibility_tools \
-      && sudo chmod -R 755 ${HOME}/app \
+      && sudo chmod -R 755 ${HOME}/accessibility-assessment-service \
       && sudo mkdir ${HOME}/output \
       && sudo chmod 755 ${HOME}/output \
       && sudo chown -R seluser:seluser ${HOME}/output \
@@ -44,7 +44,7 @@ RUN   cd ${HOME} \
       && npm upgrade \
       && cd ${HOME}/accessibility_tools \
       && npm install \
-      && cd ${HOME}/app \
+      && cd ${HOME}/accessibility-assessment-service \
       && npm install
 
 EXPOSE 6010

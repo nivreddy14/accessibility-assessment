@@ -1,12 +1,16 @@
 SHELL := /usr/bin/env bash
 PYTHON_VERSION := $(shell cat .python-version)
 
-.PHONY: check_docker build authenticate_to_artifactory push_image prep_version_incrementor clean help compose
+.PHONY: check_docker build_local build authenticate_to_artifactory push_image prep_version_incrementor clean help compose
 .DEFAULT_GOAL := help
 
-build: prep_version_incrementor ## Build the docker image
+build_local: copy_files ## Build a local docker image
+	@echo '********** Building docker image for local use ************'
+	@docker rmi -f accessibility-assessment:SNAPSHOT
+	@docker build --no-cache --tag accessibility-assessment:SNAPSHOT docker
+
+build: copy_files prep_version_incrementor ## Build the docker image
 	@echo '********** Building docker image ************'
-	@cp -r app docker/files/
 	@pipenv run prepare-release
 	@umask 0022
 	@docker build --no-cache --tag artefacts.tax.service.gov.uk/accessibility-assessment:$$(cat .version) docker
@@ -28,6 +32,13 @@ prep_version_incrementor:
 	@pip install pipenv --upgrade
 	@pipenv --python $(PYTHON_VERSION)
 	@pipenv run pip install -i https://artefacts.tax.service.gov.uk/artifactory/api/pypi/pips/simple 'version-incrementor<2'
+
+copy_files: ## Copy files required for building image
+	@rm -rf docker/files/accessibility-assessment-service || true
+	@mkdir -p docker/files/accessibility-assessment-service/
+	@cp -r accessibility-assessment-service/app docker/files/accessibility-assessment-service/app
+	@cp -r accessibility-assessment-service/package.json docker/files/accessibility-assessment-service/package.json
+	@cp -r accessibility-assessment-service/package-lock.json docker/files/accessibility-assessment-service/package-lock.json
 
 clean: ## Remove the docker image
 	@echo '********** Cleaning up ************'
