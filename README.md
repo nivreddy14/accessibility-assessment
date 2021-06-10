@@ -325,16 +325,22 @@ For local development you will need to satisfy the following pre-reqs:
 - Install [docker](https://docs.docker.com/install), v19.x or above;
 - set your `WORKSPACE` environment variable, and ensure that this project is cloned in the root of the workspace.  I.e. ${WORKSPACE}/accessibility-assessment
 
-## Building the image
-To build the **accessibility-assessment:SNAPSHOT** docker image for local use execute the `. scripts/build-local-image.sh` script.
+## Building and running the image locally during development
+The repository uses a [Makefile](Makefile) to build and run the accessibility-assessment image. To build and run 
+the accessibility-assessment container locally, use command:
+```makefile
+make run_local
+```
+To list all the available options, run:
 
-## Running the image
-To run the image as a docker container in your local dev environment, execute `. scripts/run-local.sh`.
+```makefile
+make
+```
 
 ## Updating the image
-Most updates can be tested easily by starting the service in your local development environment by executing `node app.js` from the [app](app/) directory.  However, triggering page assessments requires that you have specific versions of axe-cli and the vnu jar installed and configured appropriately.
+Most updates can be tested easily by starting the service in your local development environment by executing `node app.js` from the [accessibility-assessment-service/app](accessibility-assessment-service/app/) directory.  However, triggering page assessments requires that you have specific versions of axe-cli and the vnu jar installed and configured appropriately.
 
-As the [Dockerfile](docker/Dockerfile) contains all of the setup/configuration required to get the service running as it would in CI, the most reliable way to develop and test the service is by mounting appropriate files/folders in the [app](app/) directory to the running docker container.
+As the [Dockerfile](docker/Dockerfile) contains all of the setup/configuration required to get the service running as it would in CI, the most reliable way to develop and test the service is by mounting appropriate files/folders in the [accessibility-assessment-service/app](accessibility-assessment-service/app) directory to the running docker container.
 
 Review the comments in the [run-local.sh](scripts/run-local.sh) script for examples.
 

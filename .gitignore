@@ -20,7 +20,7 @@ dist
 
 # project specific
 test/elk-stack/esdata/*
-docker/files/app
+docker/files/accessibility-assessment-service
 app/node_modules
 app/output
 app/pages

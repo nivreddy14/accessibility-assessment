@@ -1,12 +1,33 @@
 SHELL := /usr/bin/env bash
 PYTHON_VERSION := $(shell cat .python-version)
+OUTPUT_DIRECTORY := "${PWD}/output"
 
-.PHONY: check_docker build authenticate_to_artifactory push_image prep_version_incrementor clean help compose
+.PHONY: check_docker copy_files clean_local build_local run_local stop_local build authenticate_to_artifactory push_image prep_version_incrementor clean help compose
 .DEFAULT_GOAL := help
 
-build: prep_version_incrementor ## Build the docker image
+copy_files: ## Copies files required for building image
+	@mkdir -p docker/files/accessibility-assessment-service/
+	@cp -r accessibility-assessment-service/app docker/files/accessibility-assessment-service/app
+	@cp -r accessibility-assessment-service/package.json docker/files/accessibility-assessment-service/package.json
+	@cp -r accessibility-assessment-service/package-lock.json docker/files/accessibility-assessment-service/package-lock.json
+
+clean_local: ## Clean up local environment
+	@docker rmi -f accessibility-assessment:SNAPSHOT
+	@rm -rf $(OUTPUT_DIRECTORY)/*
+	@rm -rf docker/files/accessibility-assessment-service
+
+build_local: clean_local copy_files ## Builds the accessibility-assessment image locally
+	@echo '********** Building docker image for local use ************'
+	@docker build --no-cache --tag accessibility-assessment:SNAPSHOT docker
+
+run_local: build_local ## Builds and runs the accessibility-assessment container locally
+	@docker run -d --rm --name a11y -v $(OUTPUT_DIRECTORY):/home/seluser/output -p 6010:6010 accessibility-assessment:SNAPSHOT
+
+stop_local: ## Stops the a11y container
+	@docker stop a11y
+
+build: copy_files prep_version_incrementor ## Build the docker image
 	@echo '********** Building docker image ************'
-	@cp -r app docker/files/
 	@pipenv run prepare-release
 	@umask 0022
 	@docker build --no-cache --tag artefacts.tax.service.gov.uk/accessibility-assessment:$$(cat .version) docker

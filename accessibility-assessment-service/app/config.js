@@ -18,17 +18,17 @@ const configurations = {
   docker: {
     rootDir: process.env.HOME,
     outputDir: `${process.env.HOME}/output/`,
-    resourcesDir: `${process.env.HOME}/app/resources/`,
-    assetsDir: `${process.env.HOME}/app/resources/assets/`,
+    resourcesDir: `${process.env.HOME}/accessibility-assessment-service/app/resources/`,
+    assetsDir: `${process.env.HOME}/accessibility-assessment-service/app/resources/assets/`,
     globalFilterLocation: `${process.env.HOME}/global-filters.conf`,
     pagesDirectory: `${process.env.HOME}/pages/`,
     captureAllPages: process.env.CAPTURE_ALL_PAGES || false
   },
   local: {
-    rootDir: `${process.env.WORKSPACE}/accessibility-assessment/app/`,
-    outputDir: `${process.env.WORKSPACE}/accessibility-assessment/app/output/`,
-    resourcesDir: `${process.env.WORKSPACE}/accessibility-assessment/app/resources/`,
-    assetsDir: `${process.env.WORKSPACE}/accessibility-assessment/app/resources/assets/`,
+    rootDir: `${process.env.WORKSPACE}/accessibility-assessment/accessibility-assessment-service/app/`,
+    outputDir: `${process.env.WORKSPACE}/accessibility-assessment/output/`,
+    resourcesDir: `${process.env.WORKSPACE}/accessibility-assessment/accessibility-assessment-service/app/resources/`,
+    assetsDir: `${process.env.WORKSPACE}/accessibility-assessment/accessibility-assessment-service/app/resources/assets/`,
     globalFilterLocation: `${process.env.WORKSPACE}/accessibility-assessment/app/global-filters.conf`,
     pagesDirectory: `${process.env.WORKSPACE}/accessibility-assessment/app/pages/`,
   }
