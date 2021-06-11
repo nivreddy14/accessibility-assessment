@@ -1,4 +1,4 @@
-const {applicationStatus, initialiseApp} = require('./../../../app/services/globals')
+const {applicationStatus, initialiseApp, reset} = require('./../../../app/services/globals')
 
 describe('applicationStatus', () => {
 
@@ -14,5 +14,16 @@ describe('initialiseApp', () => {
         initialiseApp('example-accessibility-tests', 'https://build.org.uk');
         expect(global.testSuite).toEqual('example-accessibility-tests');
         expect(global.buildUrl).toEqual('https://build.org.uk');
+    });
+});
+
+describe('reset', () => {
+    it('should reset the app', () => {
+        reset()
+        expect(global.testSuite).toEqual("not-set");
+        expect(global.buildUrl).toEqual('');
+        expect(global.capturedUrls).toEqual([]);
+        expect(global.excludedUrls).toEqual([]);
+        expect(global.status).toEqual('READY');
     });
 });
