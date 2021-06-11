@@ -35,7 +35,7 @@ const configurations = {
   },
   test: {
     rootDir: `${process.env.WORKSPACE}/accessibility-assessment/accessibility-assessment-service/app/`,
-    outputDir: `${process.env.WORKSPACE}/accessibility-assessment/output/`,
+    outputDir: `${process.env.WORKSPACE}/accessibility-assessment/accessibility-assessment-service/test/resources/`,
     resourcesDir: `${process.env.WORKSPACE}/accessibility-assessment/accessibility-assessment-service/app/resources/`,
     assetsDir: `${process.env.WORKSPACE}/accessibility-assessment/accessibility-assessment-service/app/resources/assets/`,
     globalFilterLocation: `${process.env.WORKSPACE}/accessibility-assessment/app/global-filters.conf`,

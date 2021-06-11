@@ -22,6 +22,7 @@ dist
 test/elk-stack/esdata/*
 docker/files/accessibility-assessment-service
 accessibility-assessment-service/node_modules
+accessibility-assessment-service/test/resources/accessibility-assessment-report.html
 app/output
 app/pages
 app/accessibility-assessment-service.log
