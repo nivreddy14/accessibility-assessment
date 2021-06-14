@@ -337,6 +337,24 @@ To list all the available options, run:
 make
 ```
 
+## Running tests locally during development
+Unit and integration tests have been implemented using [Jest](https://jestjs.io/).
+
+### Pre-requisites
+Before running the tests locally you will need ensure the required dependencies are installed:
+
+```
+cd accessibility-assessment-service
+npm install
+```
+
+### Running the tests
+To run the tests locally:
+
+```
+npm test
+```
+
 ## Updating the image
 Most updates can be tested easily by starting the service in your local development environment by executing `node app.js` from the [accessibility-assessment-service/app](accessibility-assessment-service/app/) directory.  However, triggering page assessments requires that you have specific versions of axe-cli and the vnu jar installed and configured appropriately.
 
