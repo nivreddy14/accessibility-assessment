@@ -87,28 +87,4 @@ describe('capturePage', () => {
         expect(global.status).toEqual('READY')
         expect(global.excludedUrls).toEqual(["http://localhost:1234/simple/page/capture"])
     });
-
-    xit("should capture all pages when captureAllPages is true", async () => {
-        await request(app)
-            .post('/')
-            .set('Content-Type', 'application/json')
-            .send({
-                pageURL: "http://localhost:1234/simple/page/capture",
-                pageHTML: "<html><head><title>Some title</title></head><main>The contents of the page</main></html>",
-                timestamp: "0000000002",
-                files: {"file1": "some contents"}
-            })
-        const res = await request(app)
-            .post('/')
-            .set('Content-Type', 'application/json')
-            .send({
-                pageURL: "http://localhost:1234/simple/page/capture",
-                pageHTML: "<html><head><title>Some title</title></head><main>The contents of the page</main></html>",
-                timestamp: "0000000002",
-                files: {"file1": "some contents"}
-            })
-        expect(res.statusCode).toEqual(201)
-        expect(global.status).toEqual('PAGES_CAPTURED')
-        expect(global.capturedUrls).toEqual(["http://localhost:1234/simple/page/capture", "http://localhost:1234/simple/page/capture"])
-    });
 })

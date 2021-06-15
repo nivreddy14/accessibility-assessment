@@ -337,21 +337,14 @@ To list all the available options, run:
 make
 ```
 
-## Running tests locally during development
-Unit and integration tests have been implemented using [Jest](https://jestjs.io/).
+## Running accessibility-assessment-service tests locally during development
+Unit and integration tests have been implemented for accessibility-assessment-service using [Jest](https://jestjs.io/).
 
-### Pre-requisites
-Before running the tests locally you will need ensure the required dependencies are installed:
+To run the tests locally:
 
 ```
 cd accessibility-assessment-service
 npm install
-```
-
-### Running the tests
-To run the tests locally:
-
-```
 npm test
 ```
 
