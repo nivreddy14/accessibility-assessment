@@ -1,10 +1,7 @@
 const path = require('path')
 const env = process.env.NODE_ENV || 'local'
 
-let projectRoot =  path.join(__dirname, '..', '..');
-if (process.env.USE_WORKSPACE === 'true') {
-  projectRoot = path.join(process.env.WORKSPACE, 'accessibility-assessment')
-}
+const projectRoot =  path.join(__dirname, '..', '..');
 const serviceRoot = path.join(projectRoot, 'accessibility-assessment-service')
 const homeDir = process.env.HOME;
 
