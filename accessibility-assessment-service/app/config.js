@@ -1,49 +1,48 @@
+const path = require('path')
 const env = process.env.NODE_ENV || 'local'
+
+const projectRoot =  path.join(__dirname, '..', '..');
+const serviceRoot = path.join(projectRoot, 'accessibility-assessment-service')
+const homeDir = process.env.HOME;
+
+const captureAllPages = process.env.CAPTURE_ALL_PAGES === 'true';
+const loggingEnabledDefaultFalse = process.env.LOGGING_ENABLED === 'true';
+const loggingEnabledDefaultTrue = process.env.LOGGING_ENABLED !== 'false';
 
 const configurations = {
   base: {
     env,
     port: parseInt(process.env.APP_PORT) || 6010,
-    rootDir: '/root-dir/',
-    outputDir: `/root-dir/output/`,
-    resourcesDir: `/root-dir/resources/`,
-    assetsDir: `/root-dir/app/resources/assets/`,
+    rootDir: `${serviceRoot}/app/`,
+    outputDir: `${projectRoot}/output/`,
+    resourcesDir: `${serviceRoot}/app/resources/`,
+    assetsDir: `${serviceRoot}/app/resources/assets/`,
     accessibilityAssessmentReportHtml: 'accessibility-assessment-report.html',
     accessibilityAssessmentReportJson: 'accessibility-assessment-report.json',
     accessibilityAssessmentReportCsv: 'accessibility-assessment-report.csv',
-    globalFilterLocation: `/root-dir/global-filters.conf`,
+    globalFilterLocation: `${projectRoot}/app/global-filters.conf`,
     captureAllPages: false,
-    pagesDirectory: `/root-dir/pages/`,
-    loggingEnabled: true
+    pagesDirectory: `${projectRoot}/app/pages/`,
+    loggingEnabled: loggingEnabledDefaultFalse
   },
   docker: {
-    rootDir: process.env.HOME,
-    outputDir: `${process.env.HOME}/output/`,
-    resourcesDir: `${process.env.HOME}/accessibility-assessment-service/app/resources/`,
-    assetsDir: `${process.env.HOME}/accessibility-assessment-service/app/resources/assets/`,
-    globalFilterLocation: `${process.env.HOME}/global-filters.conf`,
-    pagesDirectory: `${process.env.HOME}/pages/`,
-    captureAllPages: process.env.CAPTURE_ALL_PAGES || false
+    rootDir: homeDir,
+    outputDir: `${homeDir}/output/`,
+    resourcesDir: `${homeDir}/accessibility-assessment-service/app/resources/`,
+    assetsDir: `${homeDir}/accessibility-assessment-service/app/resources/assets/`,
+    globalFilterLocation: `${homeDir}/global-filters.conf`,
+    pagesDirectory: `${homeDir}/pages/`,
+    captureAllPages: captureAllPages,
+    loggingEnabled: loggingEnabledDefaultTrue
   },
-  local: {
-    rootDir: `${process.env.WORKSPACE}/accessibility-assessment/accessibility-assessment-service/app/`,
-    outputDir: `${process.env.WORKSPACE}/accessibility-assessment/output/`,
-    resourcesDir: `${process.env.WORKSPACE}/accessibility-assessment/accessibility-assessment-service/app/resources/`,
-    assetsDir: `${process.env.WORKSPACE}/accessibility-assessment/accessibility-assessment-service/app/resources/assets/`,
-    globalFilterLocation: `${process.env.WORKSPACE}/accessibility-assessment/app/global-filters.conf`,
-    pagesDirectory: `${process.env.WORKSPACE}/accessibility-assessment/app/pages/`,
-  },
+  local: {},
   test: {
-    rootDir: `${process.env.WORKSPACE}/accessibility-assessment/accessibility-assessment-service/app/`,
-    outputDir: `${process.env.WORKSPACE}/accessibility-assessment/accessibility-assessment-service/test/resources/`,
-    resourcesDir: `${process.env.WORKSPACE}/accessibility-assessment/accessibility-assessment-service/app/resources/`,
-    assetsDir: `${process.env.WORKSPACE}/accessibility-assessment/accessibility-assessment-service/app/resources/assets/`,
-    globalFilterLocation: `${process.env.WORKSPACE}/accessibility-assessment/app/global-filters.conf`,
-    pagesDirectory: `${process.env.WORKSPACE}/accessibility-assessment/app/pages/`,
-    loggingEnabled: false
+    outputDir: `${serviceRoot}/test/resources/`
   }
 }
 
 const config = Object.assign(configurations.base, configurations[env]);
 
 module.exports = config;
+
+console.log(JSON.stringify(config, null, 2))
