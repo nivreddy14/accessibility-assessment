@@ -21,10 +21,11 @@ dist
 # project specific
 test/elk-stack/esdata/*
 docker/files/accessibility-assessment-service
-app/node_modules
+accessibility-assessment-service/node_modules
+accessibility-assessment-service/test/resources/accessibility-assessment-report.html
+accessibility-assessment-service/test/resources/accessibility-assessment-service.log
 app/output
 app/pages
-app/accessibility-assessment-service.log
 app/global-filters.conf
 output/
 /pages/

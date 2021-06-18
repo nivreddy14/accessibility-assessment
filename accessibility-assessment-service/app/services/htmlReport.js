@@ -8,7 +8,7 @@ const config = require('../config')
 const { applicationStatus } = require('./globals')
 
 module.exports.generateHtmlReport = () => {
-  const promise = new Promise((res, rej) => {
+  return new Promise((res, rej) => {
       fs.readFile(path.join(config.outputDir, config.accessibilityAssessmentReportJson), 'utf8', (err, contents) => {
         if (err) {
           rej(err)
