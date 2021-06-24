@@ -302,7 +302,7 @@ This is also the version used in Build Jenkins.
 2. In order to configure the accessibility tests to run you will need to pass a 
    system property `accessibility-test=true`.
 
-e.g. `sbt -Dbrowser='chrome' -Denvironment='local' -Daccessibility-test=true 'testOnly uk.gov.hmrc.test.ui.specs.*'`
+e.g. `sbt -Dbrowser='chrome' -Denvironment='local' -Daccessibility.test=true 'testOnly uk.gov.hmrc.test.ui.specs.*'`
 
 3. Next, [trigger the assessment endpoint](#post-apiassess-pages).
    This will assess the pages which have been captured. 
