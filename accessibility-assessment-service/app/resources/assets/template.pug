@@ -58,7 +58,7 @@ html(lang="en")
                 each page in path.pages
                   each violation in page.violations
                     - var alertLevel = violation.alertLevel.toLowerCase()
-                    - var violationType = violation.govUkKnownIssue? 'violation--known-'+ alertLevel : 'violation--'+ alertLevel
+                    - var violationType = violation.knownIssue? 'violation--known-'+ alertLevel : 'violation--'+ alertLevel
                     tr(class=violationType)
                       td.path
                         a(href=violation.capturedPage,target='_blank') #{path.path}
@@ -69,7 +69,7 @@ html(lang="en")
                         span.code=violation.snippet
                       td.alert=violation.alertLevel
                       td.severity=violation.severity
-                      td.knownIssue=violation.govUkKnownIssue
+                      td.knownIssue=violation.knownIssue
                       td.info
                         span.info #{violation.furtherInformation}
     script!=assets.javascript
