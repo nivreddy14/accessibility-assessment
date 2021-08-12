@@ -4,7 +4,6 @@
   "description": "Surfaces the state of the accessibility-assessment container.",
   "main": "app.js",
   "scripts": {
-    "start": "node ./app.js",
     "test": "jest"
   },
   "author": "",
