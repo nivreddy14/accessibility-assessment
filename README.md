@@ -343,7 +343,6 @@ Unit and integration tests have been implemented for accessibility-assessment-se
 To run the tests locally:
 
 ```
-cd accessibility-assessment-service
 npm install
 npm test
 ```

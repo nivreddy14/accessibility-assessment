@@ -8,8 +8,8 @@ OUTPUT_DIRECTORY := "${PWD}/output"
 copy_files: ## Copies files required for building image
 	@mkdir -p docker/files/accessibility-assessment-service/
 	@cp -r accessibility-assessment-service/app docker/files/accessibility-assessment-service/app
-	@cp -r accessibility-assessment-service/package.json docker/files/accessibility-assessment-service/package.json
-	@cp -r accessibility-assessment-service/package-lock.json docker/files/accessibility-assessment-service/package-lock.json
+	@cp -r package.json docker/files/accessibility-assessment-service/package.json
+	@cp -r package-lock.json docker/files/accessibility-assessment-service/package-lock.json
 
 clean_local: ## Clean up local environment
 	@docker rmi -f accessibility-assessment:SNAPSHOT
