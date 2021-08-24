@@ -325,6 +325,14 @@ For local development you will need to satisfy the following pre-reqs:
 - Install [docker](https://docs.docker.com/install), v19.x or above;
 - set your `WORKSPACE` environment variable, and ensure that this project is cloned in the root of the workspace.  I.e. ${WORKSPACE}/accessibility-assessment
 
+## Updating axe and vnu versions
+To update the versions of axe (axe-core, axe-core/cli) and/or vnu (vnu-jar), update the version number specified within
+the [package.json](package.json) file and then follow the steps [here](#building-and-running-the-image-locally-during-development)
+
+`axe-core` requires chromedriver. The [.npmrc](.npmrc) file specifies a npm config property which detects compatibility
+of the currently installed chromedriver version before installing a new version. Further information on this npm config 
+property can be found here https://www.npmjs.com/package/chromedriver 
+
 ## Building and running the image locally during development
 The repository uses a [Makefile](Makefile) to build and run the accessibility-assessment image. To build and run 
 the accessibility-assessment container locally, use command:

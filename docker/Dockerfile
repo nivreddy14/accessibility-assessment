@@ -14,11 +14,9 @@ USER root
 WORKDIR ${HOME}
 
 COPY --chown=seluser:seluser files/start.sh ${HOME}/start.sh
-COPY --chown=seluser:seluser files/accessibility_tools ${HOME}/accessibility_tools
 COPY --chown=seluser:seluser files/accessibility-assessment-service ${HOME}/accessibility-assessment-service
 
 RUN sudo chmod 755 ${HOME}/start.sh \
-      && sudo chmod -R 755 ${HOME}/accessibility_tools \
       && sudo chmod -R 755 ${HOME}/accessibility-assessment-service \
       && sudo mkdir ${HOME}/output \
       && sudo chmod 755 ${HOME}/output \
@@ -27,8 +25,8 @@ RUN sudo chmod 755 ${HOME}/start.sh \
       && sudo chown seluser:seluser $NVM_DIR \
       # The below makes axe and vnu available within the command line
       # by creating a shell script within the /usr/bin/ folder
-      && sudo echo -e '#!/bin/bash\njava -jar ${HOME}/accessibility_tools/node_modules/vnu-jar/build/dist/vnu.jar "$@"' > /usr/bin/vnu \
-      && sudo echo -e '#!/bin/bash\n cd ${HOME}/accessibility_tools;npx axe "$@"' > /usr/bin/axe \
+      && sudo echo -e '#!/bin/bash\njava -jar ${HOME}/accessibility-assessment-service/node_modules/vnu-jar/build/dist/vnu.jar "$@"' > /usr/bin/vnu \
+      && sudo echo -e '#!/bin/bash\n cd ${HOME}/accessibility-assessment-service;npx axe "$@"' > /usr/bin/axe \
       && chmod +x /usr/bin/vnu \
       && chmod +x /usr/bin/axe
 
@@ -42,8 +40,6 @@ RUN   cd ${HOME} \
       && mv .nvmrc.bk .nvmrc \
       && nvm install \
       && npm upgrade \
-      && cd ${HOME}/accessibility_tools \
-      && npm install \
       && cd ${HOME}/accessibility-assessment-service \
       && npm install
 

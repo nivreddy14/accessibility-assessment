@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Set the axe-core version for the report
-cd ${HOME}/accessibility_tools
+cd ${HOME}/accessibility-assessment-service
 export NPM_AXE_VERSION=$(npm ls | grep axe-core | head -1 | awk -F@ '{print $3}') \
 export NPM_VNU_VERSION=$(vnu --version)
 
