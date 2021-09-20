@@ -96,7 +96,7 @@ Content-Length →0
 ```
 
 #### POST /api/capture-page
-Used by the [page-capture-chrome-extension](https://github.com/hmrc/remote-webdriver-proxy-scripts/blob/master/page-capture-chrome-extension/content.js)
+Used by the [page-capture-chrome-extension](https://github.com/hmrc/remote-webdriver-proxy-scripts/blob/main/page-capture-chrome-extension/content.js)
  to post the HTML page and assets (excluding images) for assessment.
  
 ##### Criteria for capturing pages:
@@ -390,7 +390,7 @@ Visualisations for the local Kibana instance can be loaded manually using Kibana
 
 1. When the log ingestion is successful, Kibana will show the option to create an Index at **Management -> Index Patterns**.
 The index pattern could be set to `logstash-*` and set the *time filter* field to `testRun` when prompted.
-2. The exported accessibility dashboards from Management Kibana environment is available [here](https://github.com/hmrc/management-kibana-dashboards/tree/master/saved-objects/management). The current
+2. The exported accessibility dashboards from Management Kibana environment is available [here](https://github.com/hmrc/management-kibana-dashboards/tree/main/saved-objects/management). The current
 local ELK stack setup does not support `.raw` type used in Kibana Management. It supports only type `.keyword`. Hence,
   before importing these objects replace all references to `.raw` type in the exported saved object with `.keyword`
 3. Import the modified saved objects by navigating to **Management -> Saved Ojbects** and click **Import**.
