@@ -41,8 +41,6 @@ Most updates can be tested easily by starting the service in your local developm
 
 As the [Dockerfile](docker/Dockerfile) contains all of the setup/configuration required to get the service running as it would in CI, the most reliable way to develop and test the service is by mounting appropriate files/folders in the [accessibility-assessment-service/app](accessibility-assessment-service/app) directory to the running docker container.
 
-Review the comments in the [run-local.sh](scripts/run-local.sh) script for examples.
-
 # Testing
 ## Postman Collection
 There is a [Postman](https://www.postman.com/downloads/) collection in the [test](test/postman-collections) directory which contains a list of basic requests for each of the endpoints implemented in the service.
