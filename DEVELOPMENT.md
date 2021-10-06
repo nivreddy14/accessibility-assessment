@@ -52,6 +52,10 @@ There is also a performance test available which ensures that builds of ~350 pag
 
 ## Kibana Integration
 ### Running up an ELK stack locally
+
+>Integration with Kibana is not an actively supported feature at present. See `PLATUI-1228`. The below steps can be used
+for testing Kibana integration locally when any active work is planned.
+
 You will need to have ~6GB of memory allocated to your local docker engine to run the ELK stack.  If you're running Docker Desktop, you can configure this in **Docker -> Preferences**
 
 You will also need to have docker-compose installed (tested on Mac OSX with v1.25.2).
