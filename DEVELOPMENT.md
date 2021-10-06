@@ -50,6 +50,99 @@ The [accessibility-assessment-tests](https://github.com/hmrc/accessibility-asses
 
 There is also a performance test available which ensures that builds of ~350 pages can be assessed successfully.
 
+## Troubleshooting accessibility-assessment locally
+
+### accessibility-assessment logs
+The accessibility-assessment container logs are surfaced from two different sources:
+* accessibility-assessment-service
+* page-accessibility-check
+
+#### accessibility-assessment-service logs
+The logs from accessibility-assessment-service includes information about pages captured and the status of accessibility-assessment-service.
+These logs can be obtained from the [GET api/logs/app](README.md#GET api/logs/app) API. This does not include the logs 
+generated when assessing the page using Axe and VNU. For logs from Axe and VNU see [page-accessibility-check logs](#page-accessibility-check-logs).
+
+accessibility-assessment-service log can also be accessed by using the docker command where `a11y` is the container name.
+```bash
+docker logs a11y
+```
+To follow these logs during an assessment:
+```bash
+docker logs -f a11y
+```
+#### page-accessibility-check logs
+The logs from [page-accessibility-check](https://github.com/hmrc/page-accessibility-check) includes the logs generated 
+when assessing the pages with Axe and VNU.  
+
+Viewing this logs locally requires running the Docker [exec](https://docs.docker.com/engine/reference/commandline/exec/) 
+command in the running a11y container. The below command creates a new Bash session in the container.
+
+```bash
+#executes an interactive bash shell on the container.
+docker exec -it a11y /bin/bash 
+```
+The logs then can be accessed as below.
+
+```bash
+cat output/accessibility-assessment-parser.log 
+```
+Sample output from `PageAccessibilityCheck` logger.
+
+```logs
+{"app":"page-accessibility-check","hostname":"99a45ab6345c","timestamp":"2021-10-06 11:14:34.800Z",
+"message":"Starting to parse accessibility reports for test suite: awesome-tests-a11y-tests",
+"logger":"uk.gov.hmrc.a11y.PageAccessibilityCheck$","thread":"main","level":"INFO",
+"testsuite":"awesome-tests-a11y-tests","type":"accessibility_logs"}
+
+{"app":"page-accessibility-check","hostname":"99a45ab6345c","timestamp":"2021-10-06 11:14:34.890Z",
+"message":"Failed to loaded provided config with exception: com.typesafe.config.ConfigException$IO: /home/seluser/global-filters.conf: java.io.FileNotFoundException: /home/seluser/global-filters.conf (No such file or directory).","logger":"uk.gov.hmrc.a11y.config.Configuration$","thread":"main","level":"ERROR","type":"accessibility_logs","testsuite":"awesome-tests-a11y-tests"}
+
+{"app":"page-accessibility-check","hostname":"99a45ab6345c","timestamp":"2021-10-06 11:14:34.891Z",
+"message":"Reverting to use default application.conf","logger":"uk.gov.hmrc.a11y.config.Configuration$",
+"thread":"main","level":"WARN","type":"accessibility_logs","testsuite":"awesome-tests-a11y-tests"}
+
+{"app":"page-accessibility-check","hostname":"99a45ab6345c","timestamp":"2021-10-06 11:14:36.556Z",
+"message":"Completed running AXE for /home/seluser/pages/0000000002","logger":"uk.gov.hmrc.a11y.tools.Axe",
+"thread":"scala-execution-context-global-9","level":"INFO","testsuite":"awesome-tests-a11y-tests","type":"accessibility_logs"}
+
+{"app":"page-accessibility-check","hostname":"99a45ab6345c","timestamp":"2021-10-06 11:14:36.853Z",
+"message":"Parsing Axe reports completed for test suite awesome-tests-a11y-tests.","logger":"uk.gov.hmrc.a11y.PageAccessibilityCheck$",
+"thread":"main","level":"INFO","type":"accessibility_logs","testsuite":"awesome-tests-a11y-tests"}
+
+{"app":"page-accessibility-check","hostname":"99a45ab6345c","timestamp":"2021-10-06 11:14:37.009Z",
+"message":"Completed running VNU for /home/seluser/pages/0000000002","logger":"uk.gov.hmrc.a11y.tools.Vnu",
+"thread":"scala-execution-context-global-10","level":"INFO","testsuite":"awesome-tests-a11y-tests","type":"accessibility_logs"}
+
+{"app":"page-accessibility-check","hostname":"99a45ab6345c","timestamp":"2021-10-06 11:14:37.065Z",
+"message":"Parsing VNU reports completed for test suite awesome-tests-a11y-tests.","logger":"uk.gov.hmrc.a11y.PageAccessibilityCheck$",
+"thread":"main","level":"INFO","type":"accessibility_logs","testsuite":"awesome-tests-a11y-tests"}
+
+{"app":"page-accessibility-check","hostname":"99a45ab6345c","timestamp":"2021-10-06 11:14:37.162Z",
+"message":"Total no of violations from all tools: 1","logger":"uk.gov.hmrc.a11y.PageAccessibilityCheck$",
+"thread":"main","level":"INFO","type":"accessibility_logs","testsuite":"awesome-tests-a11y-tests"}
+
+{"app":"page-accessibility-check","hostname":"99a45ab6345c","timestamp":"2021-10-06 11:14:37.163Z",
+"message":"Finished parsing accessibility reports for test suite: awesome-tests-a11y-tests","logger":"uk.gov.hmrc.a11y.PageAccessibilityCheck$",
+"thread":"main","level":"INFO","type":"accessibility_logs","testsuite":"awesome-tests-a11y-tests"}
+```
+
+### Raw output from Axe and VNU
+The output generated by page-accessibility-check is a normalised output generated from the raw Axe and VNU output.
+The raw output from Axe and VNU for each page are made available alongside the captured page. The API
+[GET /api/report/bundle](README.md#GET api/report/<type>) returns a zipped file which contains all the captured pages,
+and the HTML report. The downloaded zip files includes a folder titled `pages` which contains the capture page and 
+the raw `vnu-report.json` and `axe-report.json`
+
+This can be viewed from within the container as well, by using the interactive shell.
+
+```bash
+#executes an interactive bash shell on the container.
+docker exec -it a11y /bin/bash
+ls pages 
+```
+The `pages` directory contain all the pages captured during the assessment in a folder named after the captured timestamp.
+Each of these folders include the raw `vnu-report.json` and `axe-report.json` for that page.
+
 ## Kibana Integration
 ### Running up an ELK stack locally
 

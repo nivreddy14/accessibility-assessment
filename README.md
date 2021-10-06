@@ -312,7 +312,8 @@ e.g. `sbt -Dbrowser='chrome' -Denvironment='local' -Daccessibility.test=true 'te
 
 
 4. Finally, [get the report](#get-apireport) to see any violations which have been found.
-
+5. See [troubleshooting accessibility-assessment locally](DEVELOPMENT.md#troubleshooting-accessibility-assessment-locally) 
+   section for any issues with running the assessment locally. 
 
 # Building the Image in CI
 The [Makefile](Makefile) at the root of this project is used by Jenkins to build and publish new versions of this image to artefactory for use in CI.
