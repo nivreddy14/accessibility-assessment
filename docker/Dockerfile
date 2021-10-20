@@ -44,7 +44,8 @@ RUN   cd ${HOME} \
       && sudo echo -e '#!/bin/bash\n cd ${HOME}/accessibility-assessment-service;npx axe "$@"' > ${HOME}/bin/axe \
       # makes axe and vnu shell scripts executable
       && chmod +x ${HOME}/bin/vnu \
-      && chmod +x ${HOME}/bin/axe
+      && chmod +x ${HOME}/bin/axe \
+      && npm test
 
 EXPOSE 6010
 
