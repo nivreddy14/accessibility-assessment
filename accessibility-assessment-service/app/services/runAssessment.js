@@ -19,11 +19,11 @@ async function runScript(command) {
     applicationStatus('PAGE_ASSESSMENT_FAILED')
     return
   }
+  applicationStatus("PAGE_ASSESSMENT_COMPLETED")
 }
 
 module.exports.runAssessment = async () => {
   applicationStatus("ASSESSING_PAGES");
   await runScript(`cd ${config.resourcesDir} && ./run_assessment.sh ${config.rootDir} ${global.testSuite} ${global.buildUrl}`);
   if(global.status === 'PAGE_ASSESSMENT_FAILED') {return}
-  generateHtmlReport();
 }

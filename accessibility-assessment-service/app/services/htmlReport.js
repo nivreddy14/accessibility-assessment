@@ -25,7 +25,7 @@ module.exports.generateHtmlReport = () => {
     .then(applicationStatus("REPORT_READY"))
     .catch(e => {
       logger.log('ERROR', `Something went wrong when preparing report.  ${e.name} with message ${e.message}. \n${e.stack}`)
-      applicationStatus("PAGE_ASSESSMENT_FAILED")
+      applicationStatus("REPORT_GENERATION_FAILED")
     })
 }
 

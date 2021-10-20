@@ -11,6 +11,7 @@ app.use('/api/logs', require('./routes/logs.js'));
 app.use('/api/app', require('./routes/application.js'));
 app.use('/api/capture-page', require('./routes/capturePage.js'));
 app.use('/api/assess-pages', require('./routes/assessPages.js'));
+app.use('/api/generate-report', require('./routes/generateHtmlReport.js'));
 app.use('/api/report', require('./routes/report.js'));
 app.use('/api/status', require('./routes/status.js'));
 app.use('/api/report/pages', express.static(config.pagesDirectory));
