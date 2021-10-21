@@ -24,8 +24,10 @@ to generate a new jar.
 `accessibility-assessment/accessibility-assessment-service/app/resources/` folder.
 
 ## Building and running the image locally during development
-The repository uses a [Makefile](Makefile) to build and run the accessibility-assessment image. To build and run
-the accessibility-assessment container locally, use command:
+The repository uses a [Makefile](Makefile) to build and run the accessibility-assessment image. 
+The Dockerfile also includes a step to RUN npm tests when building the image. 
+
+To build and run the accessibility-assessment container locally, use command:
 ```makefile
 make run_local
 ```
@@ -36,13 +38,16 @@ make
 ```
 
 ## Running accessibility-assessment-service tests locally during development
-Unit and integration tests have been implemented for accessibility-assessment-service using [Jest](https://jestjs.io/).
+accessibility-assessment-service includes a set of unit, integration and e2e tests. The tests
+have been implemented for  using [Jest](https://jestjs.io/).
 
 To run the tests locally:
 
 ```
 npm install
-npm test
+## runs npm test for accessibility-assessment service when building the image. \
+## --runInBand ensures the tests are run in sequence
+npm run test -- --runInBand
 ```
 
 ## Updating the image

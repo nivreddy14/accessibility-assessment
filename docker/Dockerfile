@@ -45,7 +45,9 @@ RUN   cd ${HOME} \
       # makes axe and vnu shell scripts executable
       && chmod +x ${HOME}/bin/vnu \
       && chmod +x ${HOME}/bin/axe \
-      && npm test
+      ## runs npm test for accessibility-assessment service when building the image. \
+      ## --runInBand ensures the tests are run in sequence
+      && npm run test -- --runInBand
 
 EXPOSE 6010
 
