@@ -37,7 +37,8 @@ const configurations = {
   },
   local: {},
   test: {
-    outputDir: `${serviceRoot}/test/resources/`
+    rootDir: `${projectRoot}/app/`,
+    outputDir: `${projectRoot}/app/output`
   }
 }
 
