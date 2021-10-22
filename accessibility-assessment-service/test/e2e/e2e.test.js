@@ -6,9 +6,14 @@ const application = require('../../app/routes/application')
 const status = require('../../app/routes/status')
 const report = require('../../app/routes/report')
 const {reset} = require('./../../app/services/globals')
+const {removeTempFiles} = require('../hooks')
 
 describe('accessibility-assessment-service', () => {
     let app;
+
+    beforeAll(() => {
+        removeTempFiles()
+    });
 
     beforeEach(() => {
         app = express();
@@ -19,6 +24,10 @@ describe('accessibility-assessment-service', () => {
         app.use("/api/status", status);
         app.use('/api/report', report);
         reset();
+    });
+
+    afterAll(() => {
+        removeTempFiles()
     });
 
     it('should assess a HTML page and generate report', async () => {
