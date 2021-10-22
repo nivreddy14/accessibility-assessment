@@ -2,15 +2,24 @@ const express = require('express')
 const request = require('supertest')
 const service = require('../../../app/routes/capturePage')
 const {reset} = require('./../../../app/services/globals')
+const {removeTempFiles} = require("../../hooks");
 
 describe('capturePage', () => {
     let app;
+
+    beforeAll(() => {
+        removeTempFiles()
+    });
 
     beforeEach(() => {
         app = express();
         app.use(express.json({limit: '500mb',}));
         app.use("/", service);
         reset()
+    });
+
+    afterAll(() => {
+        removeTempFiles()
     });
 
     it('should capture a new HTML page', async () => {

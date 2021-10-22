@@ -31,3 +31,4 @@ app/global-filters.conf
 output/
 /pages/
 /test/elk/esdata/
+/accessibility-assessment-service/temp/

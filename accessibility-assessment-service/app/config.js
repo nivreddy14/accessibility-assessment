@@ -13,8 +13,8 @@ const configurations = {
   base: {
     env,
     port: parseInt(process.env.APP_PORT) || 6010,
-    rootDir: `${serviceRoot}/app/`,
-    outputDir: `${projectRoot}/output/`,
+    rootDir: `${serviceRoot}/temp/`,
+    outputDir: `${serviceRoot}/temp/output/`,
     resourcesDir: `${serviceRoot}/app/resources/`,
     assetsDir: `${serviceRoot}/app/resources/assets/`,
     accessibilityAssessmentReportHtml: 'accessibility-assessment-report.html',
@@ -22,7 +22,7 @@ const configurations = {
     accessibilityAssessmentReportCsv: 'accessibility-assessment-report.csv',
     globalFilterLocation: `${projectRoot}/app/global-filters.conf`,
     captureAllPages: false,
-    pagesDirectory: `${projectRoot}/app/pages/`,
+    pagesDirectory: `${serviceRoot}/temp/pages`,
     loggingEnabled: loggingEnabledDefaultFalse
   },
   docker: {
@@ -36,10 +36,7 @@ const configurations = {
     loggingEnabled: loggingEnabledDefaultTrue
   },
   local: {},
-  test: {
-    rootDir: `${projectRoot}/app/`,
-    outputDir: `${projectRoot}/app/output`
-  }
+  test: {}
 }
 
 const config = Object.assign(configurations.base, configurations[env]);

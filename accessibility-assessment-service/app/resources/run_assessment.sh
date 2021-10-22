@@ -7,7 +7,7 @@ build_url=${3:-}
 # absolute reference.
 if [ -z "$3" ]
 then
-  artefact_location=./pages
+  artefact_location="${root_dir}/pages"
 else
   artefact_location=${build_url}artifact/pages
 fi
