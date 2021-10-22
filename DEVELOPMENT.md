@@ -46,7 +46,7 @@ To run the tests locally:
 ```
 npm install
 ## runs npm test for accessibility-assessment service when building the image. \
-## --runInBand ensures the tests are run in sequence
+## --runInBand disables running test in parallel.
 npm run test -- --runInBand
 ```
 
