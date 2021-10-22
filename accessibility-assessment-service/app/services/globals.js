@@ -1,4 +1,7 @@
 const logger = require('../logger')
+const rimraf = require("rimraf");
+const config = require("../config");
+const path = require("path");
 
 module.exports.applicationStatus = function (newApplicationStatus) {
   if (newApplicationStatus != global.status) {
@@ -14,6 +17,13 @@ module.exports.initialiseApp = function (testSuite, buildUrl) {
 }
 
 module.exports.reset = () => {
+  rimraf.sync(config.pagesDirectory);
+  rimraf.sync(path.join(config.outputDir, config.accessibilityAssessmentReportHtml));
+  rimraf.sync(path.join(config.outputDir, config.accessibilityAssessmentReportJson));
+  rimraf.sync(path.join(config.outputDir, config.accessibilityAssessmentReportCsv));
+  rimraf.sync(config.outputDir);
+  rimraf.sync(config.globalFilterLocation);
+
   global.status = 'READY'
   global.capturedUrls = []
   global.excludedUrls = []

@@ -2,14 +2,9 @@ const express = require('express')
 const request = require('supertest')
 const service = require('../../../app/routes/capturePage')
 const {reset} = require('./../../../app/services/globals')
-const {removeTempFiles} = require("../../hooks");
 
 describe('capturePage', () => {
     let app;
-
-    beforeAll(() => {
-        removeTempFiles()
-    });
 
     beforeEach(() => {
         app = express();
@@ -18,8 +13,8 @@ describe('capturePage', () => {
         reset()
     });
 
-    afterAll(() => {
-        removeTempFiles()
+    afterEach(() => {
+        reset()
     });
 
     it('should capture a new HTML page', async () => {

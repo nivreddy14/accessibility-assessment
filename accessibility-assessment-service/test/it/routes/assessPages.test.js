@@ -2,15 +2,9 @@ const express = require("express");
 const service = require("../../../app/routes/assessPages");
 const {reset, applicationStatus} = require("./../../../app/services/globals");
 const request = require("supertest");
-const {removeTempFiles} = require("../../hooks");
-
 
 describe('assessPage', () => {
     let app;
-
-    beforeAll(() => {
-        removeTempFiles()
-    });
 
     beforeEach(() => {
         app = express();
@@ -19,8 +13,8 @@ describe('assessPage', () => {
         reset()
     });
 
-    afterAll(() => {
-        removeTempFiles()
+    afterEach(() => {
+        reset()
     });
 
     it("should return 'No Page available for assessment' when status is not PAGES_CAPTURED", async () => {

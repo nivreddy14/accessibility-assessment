@@ -6,14 +6,10 @@ const application = require('../../app/routes/application')
 const status = require('../../app/routes/status')
 const report = require('../../app/routes/report')
 const {reset} = require('./../../app/services/globals')
-const {removeTempFiles} = require('../hooks')
+const {sleep} = require('./../utils')
 
 describe('accessibility-assessment-service', () => {
     let app;
-
-    beforeAll(() => {
-        removeTempFiles()
-    });
 
     beforeEach(() => {
         app = express();
@@ -23,14 +19,20 @@ describe('accessibility-assessment-service', () => {
         app.use("/api/assess-pages", assessPages);
         app.use("/api/status", status);
         app.use('/api/report', report);
-        reset();
     });
 
     afterAll(() => {
-        removeTempFiles()
+        reset()
     });
 
     it('should assess a HTML page and generate report', async () => {
+
+        //reset app
+        await request(app)
+            .post('/api/app/reset')
+            .then((response) => {
+                expect(response.status).toEqual(200)
+            });
 
         //initial status
         await request(app)
@@ -86,14 +88,24 @@ describe('accessibility-assessment-service', () => {
             });
 
         //waits for report to be ready
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
-        await sleep(5000)
-        await request(app)
+        let counter=0;
+        let status = await request(app)
             .get('/api/status')
+
+        while (counter!==10 && status.text !== 'REPORT_READY'){
+            counter++;
+            status = await request(app)
+                .get('/api/status')
+            await sleep(2000)
+        }
+        expect(status.text).toEqual('REPORT_READY')
+
+        //gets JSON report
+        await request(app)
+            .get('/api/report/json')
+            .set('Accept', 'application/json')
             .then((response) => {
-                expect(response.text).toEqual('REPORT_READY')
+                expect(response.text).toContain('awesome-tests-a11y-tests')
             });
 
         //gets HTML report
@@ -102,5 +114,5 @@ describe('accessibility-assessment-service', () => {
             .then((response) => {
                 expect(response.text).toContain('HMRC Accessibility report for awesome-tests-a11y-tests')
             });
-    }, 10000);
+    }, 20000);
 });
