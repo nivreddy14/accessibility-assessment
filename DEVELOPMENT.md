@@ -5,6 +5,25 @@
 For local development you will need to satisfy the following pre-reqs:
 - Install [docker](https://docs.docker.com/install), v19.x or above;
 - set your `WORKSPACE` environment variable, and ensure that this project is cloned in the root of the workspace.  i.e. ${WORKSPACE}/accessibility-assessment
+- axe-cli and vnu should be installed locally and available to be executed from within the repo for developing and testing locally.
+
+### To install axe-cli
+```npm install axe-cli@<NPM_AXE_VERSION> -g```
+
+### To install VNU
+```npm install vnu-jar@<NPM_VNU_VERSION> -g```
+
+and run the below commands to make VNU available from terminal:
+
+####Linux
+```
+sudo printf "\#\!\/usr\/bin\/env bash\n\njava -jar ${HOME}/.nvm/versions/node/$(node -v)/lib/node_modules/vnu-jar/build/dist/vnu.jar \"\$\@\"" > /usr/bin/vnu  \ 
+&& chmod +x /usr/bin/vnu
+```
+####Mac OS
+```
+sudo printf '#!/usr/bin/env bash\n\njava -jar /usr/local/lib/node_modules/vnu-jar/build/dist/vnu.jar "$@"' > /usr/local/bin/vnu && chmod +x /usr/local/bin/vnu
+```
 
 ## Updating axe and vnu versions
 To update the versions of axe (axe-core, axe-core/cli) and/or vnu (vnu-jar), update the version number specified within
@@ -39,7 +58,8 @@ make
 
 ## Running accessibility-assessment-service tests locally during development
 accessibility-assessment-service includes a set of unit, integration and e2e tests. The tests
-have been implemented for  using [Jest](https://jestjs.io/).
+have been implemented using [Jest](https://jestjs.io/).
+Running the e2e tests require axe and vnu installed locally. See [pre-requisites](#pre-requisites) for further information.
 
 To run the tests locally:
 
