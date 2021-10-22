@@ -46,7 +46,7 @@ RUN   cd ${HOME} \
       && chmod +x ${HOME}/bin/vnu \
       && chmod +x ${HOME}/bin/axe \
       ## runs npm test for accessibility-assessment service when building the image. \
-      ## --runInBand ensures the tests are run in sequence
+      ## --runInBand disables running test in parallel.
       && npm run test -- --runInBand
 
 EXPOSE 6010
