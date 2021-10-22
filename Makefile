@@ -1,6 +1,5 @@
 SHELL := /usr/bin/env bash
 PYTHON_VERSION := $(shell cat .python-version)
-OUTPUT_DIRECTORY := "${PWD}/output"
 
 .PHONY: check_docker copy_files clean_local build_local run_local stop_local build authenticate_to_artifactory push_image prep_version_incrementor clean help compose
 .DEFAULT_GOAL := help
@@ -13,7 +12,6 @@ copy_files: ## Copies files required for building image
 
 clean_local: ## Clean up local environment
 	@docker rmi -f accessibility-assessment:SNAPSHOT
-	@rm -rf $(OUTPUT_DIRECTORY)/*
 	@rm -rf docker/files/accessibility-assessment-service
 
 build_local: clean_local copy_files ## Builds the accessibility-assessment image locally
@@ -21,7 +19,7 @@ build_local: clean_local copy_files ## Builds the accessibility-assessment image
 	@docker build --progress=plain --no-cache --tag accessibility-assessment:SNAPSHOT docker
 
 run_local: build_local ## Builds and runs the accessibility-assessment container locally
-	@docker run -d --rm --name a11y -v $(OUTPUT_DIRECTORY):/home/seluser/output -p 6010:6010 accessibility-assessment:SNAPSHOT
+	@docker run -d --rm --name a11y -p 6010:6010 accessibility-assessment:SNAPSHOT
 
 stop_local: ## Stops the a11y container
 	@docker stop a11y
