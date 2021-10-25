@@ -16,7 +16,10 @@ clean_local: ## Clean up local environment
 
 build_local: clean_local copy_files ## Builds the accessibility-assessment image locally
 	@echo '********** Building docker image for local use ************'
-	@docker build --progress=plain --no-cache --tag accessibility-assessment:SNAPSHOT docker
+	@docker build --progress=plain --no-cache --tag accessibility-assessment:SNAPSHOT docker \
+ 	|| (echo "Build failed. Removing files used for building"; rm -rf docker/files/accessibility-assessment-service; exit 1)
+	@echo '********** Image Built. Removing files used for building image ************'
+	@rm -rf docker/files/accessibility-assessment-service
 
 run_local: build_local ## Builds and runs the accessibility-assessment container locally
 	@docker run -d --rm --name a11y -p 6010:6010 accessibility-assessment:SNAPSHOT
