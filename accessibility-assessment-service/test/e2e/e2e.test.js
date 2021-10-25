@@ -5,6 +5,7 @@ const assessPages = require('../../app/routes/assessPages')
 const application = require('../../app/routes/application')
 const status = require('../../app/routes/status')
 const report = require('../../app/routes/report')
+const logs = require('../../app/routes/logs')
 const {reset} = require('./../../app/services/globals')
 const {sleep} = require('./../utils')
 
@@ -19,6 +20,7 @@ describe('accessibility-assessment-service', () => {
         app.use("/api/assess-pages", assessPages);
         app.use("/api/status", status);
         app.use('/api/report', report);
+        app.use('/api/logs', logs);
     });
 
     afterAll(() => {
@@ -117,6 +119,17 @@ describe('accessibility-assessment-service', () => {
             .get('/api/report/html')
             .then((response) => {
                 expect(response.text).toContain('HMRC Accessibility report for awesome-tests-a11y-tests')
+            });
+
+        //checks retrieving captured URLs
+        await request(app)
+            .get('/api/logs/urls')
+            .then((response) => {
+                expect(response.body).toEqual({
+                    capturedUrls: ["http://localhost:1234/simple/page/capture"],
+                    excludedUrls: [],
+                    errors: []
+                })
             });
     }, 20000);
 });
