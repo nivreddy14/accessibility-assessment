@@ -10,7 +10,7 @@ copy_files: ## Copies files required for building image
 	@cp -r package-lock.json docker/files/accessibility-assessment-service/package-lock.json
 	@cp -r .npmrc docker/files/accessibility-assessment-service/.npmrc
 
-clean_local: ## Clean up local environment
+clean_local: stop_local ## Clean up local environment
 	@echo '********** Cleaning local docker environment ************'
 	@docker rmi -f accessibility-assessment:SNAPSHOT
 	@rm -rf docker/files/accessibility-assessment-service
@@ -28,7 +28,7 @@ run_local: build_local ## Builds and runs the accessibility-assessment container
 
 stop_local: ## Stops the a11y container
 	@echo '********** Stopping a11y container running locally ************'
-	@docker stop a11y
+	@docker stop a11y || (echo "a11y container not running. Nothing to stop."; exit 0)
 
 build: copy_files prep_version_incrementor ## Build the docker image
 	@echo '********** Building docker image ************'
