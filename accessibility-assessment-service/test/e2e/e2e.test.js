@@ -107,6 +107,7 @@ describe('accessibility-assessment-service', () => {
             .get('/api/report/json')
             .set('Accept', 'application/json')
             .then((response) => {
+                expect(response.status).toEqual(200)
                 expect(response.text).toContain('awesome-tests-a11y-tests')
                 //violation from axe
                 expect(response.text).toContain('Document has more than one main landmark')
@@ -118,7 +119,19 @@ describe('accessibility-assessment-service', () => {
         await request(app)
             .get('/api/report/html')
             .then((response) => {
+                expect(response.status).toEqual(200)
                 expect(response.text).toContain('HMRC Accessibility report for awesome-tests-a11y-tests')
+            });
+
+        //gets csv report
+        await request(app)
+            .get('/api/report/csv')
+            .then((response) => {
+                expect(response.status).toEqual(200)
+                //violation from axe
+                expect(response.text).toContain('Document has more than one main landmark')
+                //violation from VNU
+                expect(response.text).toContain('A document must not include more than one visible “main” element.')
             });
 
         //checks retrieving captured URLs
