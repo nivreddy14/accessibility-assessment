@@ -131,5 +131,12 @@ describe('accessibility-assessment-service', () => {
                     errors: []
                 })
             });
+
+        //retrieve report bundle
+        await request(app)
+            .get('/api/report/bundle')
+            .then((response) => {
+                expect(response.status).toEqual(200)
+            });
     }, 20000);
 });
