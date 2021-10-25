@@ -1,5 +1,4 @@
 const express = require("express");
-const report = require("../../../app/routes/report");
 const {reset} = require("./../../../app/services/globals");
 const request = require("supertest");
 
@@ -9,7 +8,7 @@ describe('report', () => {
     beforeEach(() => {
         app = express();
         app.use(express.json({limit: '500mb',}));
-        app.use("/api/report", report);
+        app.use(require("./../../../app/router"))
         reset()
     });
 
