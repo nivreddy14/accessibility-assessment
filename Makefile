@@ -11,6 +11,7 @@ copy_files: ## Copies files required for building image
 	@cp -r .npmrc docker/files/accessibility-assessment-service/.npmrc
 
 clean_local: ## Clean up local environment
+	@echo '********** Cleaning local docker environment ************'
 	@docker rmi -f accessibility-assessment:SNAPSHOT
 	@rm -rf docker/files/accessibility-assessment-service
 
@@ -22,9 +23,11 @@ build_local: clean_local copy_files ## Builds the accessibility-assessment image
 	@rm -rf docker/files/accessibility-assessment-service
 
 run_local: build_local ## Builds and runs the accessibility-assessment container locally
+	@echo '********** Starting a11y container for local use ************'
 	@docker run -d --rm --name a11y -p 6010:6010 accessibility-assessment:SNAPSHOT
 
 stop_local: ## Stops the a11y container
+	@echo '********** Stopping a11y container running locally ************'
 	@docker stop a11y
 
 build: copy_files prep_version_incrementor ## Build the docker image
