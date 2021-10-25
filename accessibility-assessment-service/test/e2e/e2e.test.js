@@ -60,7 +60,7 @@ describe('accessibility-assessment-service', () => {
             .set('Content-Type', 'application/json')
             .send({
                 pageURL: "http://localhost:1234/simple/page/capture",
-                pageHTML: "<html><head><title>Some title</title></head><main>The contents of the page</main></html>",
+                pageHTML: "<html><head><title>Some title</title></head><main>The contents of the page</main><main>Another main will result in violation</main></html>",
                 timestamp: "0000000002",
                 files: {"file1": "some contents"}
             }).then((response) => {
@@ -106,6 +106,10 @@ describe('accessibility-assessment-service', () => {
             .set('Accept', 'application/json')
             .then((response) => {
                 expect(response.text).toContain('awesome-tests-a11y-tests')
+                //violation from axe
+                expect(response.text).toContain('Document has more than one main landmark')
+                //violation from VNU
+                expect(response.text).toContain('A document must not include more than one visible “main” element.')
             });
 
         //gets HTML report
