@@ -20,7 +20,7 @@ const configurations = {
     accessibilityAssessmentReportHtml: 'accessibility-assessment-report.html',
     accessibilityAssessmentReportJson: 'accessibility-assessment-report.json',
     accessibilityAssessmentReportCsv: 'accessibility-assessment-report.csv',
-    globalFilterLocation: `${projectRoot}/app/global-filters.conf`,
+    globalFilterLocation: `${serviceRoot}/global-filters.conf`,
     captureAllPages: false,
     pagesDirectory: `${serviceRoot}/temp/pages`,
     loggingEnabled: loggingEnabledDefaultFalse
@@ -36,7 +36,10 @@ const configurations = {
     loggingEnabled: loggingEnabledDefaultTrue
   },
   local: {},
-  test: {}
+  test: {
+    testResourcesDir: `${serviceRoot}/test/resources/`,
+    globalFilterLocation: `${serviceRoot}/test/global-filters.conf`,
+  }
 }
 
 const config = Object.assign(configurations.base, configurations[env]);
