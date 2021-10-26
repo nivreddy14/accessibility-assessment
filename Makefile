@@ -1,31 +1,34 @@
 SHELL := /usr/bin/env bash
 PYTHON_VERSION := $(shell cat .python-version)
-OUTPUT_DIRECTORY := "${PWD}/output"
 
 .PHONY: check_docker copy_files clean_local build_local run_local stop_local build authenticate_to_artifactory push_image prep_version_incrementor clean help compose
 .DEFAULT_GOAL := help
 
 copy_files: ## Copies files required for building image
-	@mkdir -p docker/files/accessibility-assessment-service/
-	@cp -r accessibility-assessment-service/app docker/files/accessibility-assessment-service/app
+	@cp -r accessibility-assessment-service docker/files/accessibility-assessment-service
 	@cp -r package.json docker/files/accessibility-assessment-service/package.json
 	@cp -r package-lock.json docker/files/accessibility-assessment-service/package-lock.json
 	@cp -r .npmrc docker/files/accessibility-assessment-service/.npmrc
 
-clean_local: ## Clean up local environment
+clean_local: stop_local ## Clean up local environment
+	@echo '********** Cleaning local docker environment ************'
 	@docker rmi -f accessibility-assessment:SNAPSHOT
-	@rm -rf $(OUTPUT_DIRECTORY)/*
 	@rm -rf docker/files/accessibility-assessment-service
 
 build_local: clean_local copy_files ## Builds the accessibility-assessment image locally
 	@echo '********** Building docker image for local use ************'
-	@docker build --no-cache --tag accessibility-assessment:SNAPSHOT docker
+	@docker build --progress=plain --no-cache --tag accessibility-assessment:SNAPSHOT docker \
+ 	|| (echo "Build failed. Removing files used for building"; rm -rf docker/files/accessibility-assessment-service; exit 1)
+	@echo '********** Image Built. Removing files used for building image ************'
+	@rm -rf docker/files/accessibility-assessment-service
 
 run_local: build_local ## Builds and runs the accessibility-assessment container locally
-	@docker run -d --rm --name a11y -v $(OUTPUT_DIRECTORY):/home/seluser/output -p 6010:6010 accessibility-assessment:SNAPSHOT
+	@echo '********** Starting a11y container for local use ************'
+	@docker run -d --rm --name a11y -p 6010:6010 accessibility-assessment:SNAPSHOT
 
 stop_local: ## Stops the a11y container
-	@docker stop a11y
+	@echo '********** Stopping a11y container running locally ************'
+	@docker stop a11y || (echo "a11y container not running. Nothing to stop."; exit 0)
 
 build: copy_files prep_version_incrementor ## Build the docker image
 	@echo '********** Building docker image ************'

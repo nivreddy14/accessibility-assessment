@@ -39,12 +39,16 @@ RUN   cd ${HOME} \
       && cd ${HOME}/accessibility-assessment-service \
       # installs axe, vnu and dependencies required for accessibility-assessment-service defined in package.json
       && npm install \
-      # creates a shell script in ${HOME}/bin to make axe and vnu accessible from command line
+      # creates a shell script in ${HOME}/bin to make axe and vnu accessible from command line \
+      # The name of the shell script should match the invocation from page-accessibility-check.
       && sudo echo -e '#!/bin/bash\njava -jar ${HOME}/accessibility-assessment-service/node_modules/vnu-jar/build/dist/vnu.jar "$@"' > ${HOME}/bin/vnu \
-      && sudo echo -e '#!/bin/bash\n cd ${HOME}/accessibility-assessment-service;npx axe "$@"' > ${HOME}/bin/axe \
+      && sudo echo -e '#!/bin/bash\n cd ${HOME}/accessibility-assessment-service;npx axe "$@"' > ${HOME}/bin/axeRunner \
       # makes axe and vnu shell scripts executable
       && chmod +x ${HOME}/bin/vnu \
-      && chmod +x ${HOME}/bin/axe
+      && chmod +x ${HOME}/bin/axeRunner \
+      ## runs npm test for accessibility-assessment service when building the image. \
+      ## --runInBand disables running test in parallel.
+      && npm run test -- --runInBand
 
 EXPOSE 6010
 

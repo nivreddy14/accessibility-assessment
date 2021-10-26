@@ -5,6 +5,60 @@
 For local development you will need to satisfy the following pre-reqs:
 - Install [docker](https://docs.docker.com/install), v19.x or above;
 - set your `WORKSPACE` environment variable, and ensure that this project is cloned in the root of the workspace.  i.e. ${WORKSPACE}/accessibility-assessment
+- accessibility-assessment is run as a docker container in Build. Hence, we recommend testing the changes within Docker.
+   The Dockerfile will run a set of jest tests when building the image. This should be sufficient to test the changes.
+   To run tests outside the Docker container, you would require Axe and Vnu setup locally.
+
+### To install axe-cli
+Install axe-core via `npm`. Note that this version may be different to the version used in [package.json](package.json)
+```npm install @axe-core/cli -g```
+
+Create a shell script named `axeRunner` in `/usr/local/bin`. This script name matches the invocation in page-accessibility-check.
+```
+vi /usr/local/bin/axeRunner
+```
+
+And add the below lines. ${WORKSPACE} is the root where the accessibility-assessment is cloned.
+```
+#!/bin/bash
+cd ${WORKSPACE}/accessibility-assessment;npx axe "$@"
+```
+ 
+Set the permission to execute the script
+```
+chmod u+x /usr/local/bin/axeRunner
+```
+
+To test the installation, run the command
+```
+axeRunner --show-errors -v
+```
+
+If there is an error related to chromedriver version mismatch, copy the required chromedriver version to the node module manually. 
+For example, to copy the latest chromedriver from your `bin`:
+```
+cp /usr/local/bin/chromedriver ~/.nvm/versions/node/v12.16.1/lib/node_modules/@axe-core/cli/node_modules/chromedriver/lib/chromedriver/chromedriver
+```
+
+Now running the below command should not throw an error:
+```
+axeRunner --show-errors -v
+```
+
+### To install VNU
+```npm install vnu-jar -g```
+
+and run the below commands to make VNU available from terminal:
+
+####Linux
+```
+sudo printf "\#\!\/usr\/bin\/env bash\n\njava -jar ${HOME}/.nvm/versions/node/$(node -v)/lib/node_modules/vnu-jar/build/dist/vnu.jar \"\$\@\"" > /usr/bin/vnu  \ 
+&& chmod +x /usr/bin/vnu
+```
+####Mac OS
+```
+sudo printf '#!/usr/bin/env bash\n\njava -jar /usr/local/lib/node_modules/vnu-jar/build/dist/vnu.jar "$@"' > /usr/local/bin/vnu && chmod +x /usr/local/bin/vnu
+```
 
 ## Updating axe and vnu versions
 To update the versions of axe (axe-core, axe-core/cli) and/or vnu (vnu-jar), update the version number specified within
@@ -24,8 +78,10 @@ to generate a new jar.
 `accessibility-assessment/accessibility-assessment-service/app/resources/` folder.
 
 ## Building and running the image locally during development
-The repository uses a [Makefile](Makefile) to build and run the accessibility-assessment image. To build and run
-the accessibility-assessment container locally, use command:
+The repository uses a [Makefile](Makefile) to build and run the accessibility-assessment image. 
+The Dockerfile also includes a step to RUN npm tests when building the image. This should be sufficient to test the changes.
+
+To build and run the accessibility-assessment container locally, use command:
 ```makefile
 make run_local
 ```
@@ -36,13 +92,18 @@ make
 ```
 
 ## Running accessibility-assessment-service tests locally during development
-Unit and integration tests have been implemented for accessibility-assessment-service using [Jest](https://jestjs.io/).
+accessibility-assessment-service includes a set of unit, integration and e2e tests. The tests
+have been implemented using [Jest](https://jestjs.io/). The Dockerfile has been setup to run these tests as part of building 
+the image. So there may not be a need to run these tests locally. If for any reason, to run these tests locally, then
+axe and vnu must be installed locally as the e2e tests require them. See [pre-requisites](#pre-requisites) for further information.
 
 To run the tests locally:
 
 ```
 npm install
-npm test
+## runs npm test for accessibility-assessment service when building the image. \
+## --runInBand disables running test in parallel.
+npm run test -- --runInBand
 ```
 
 ## Updating the image

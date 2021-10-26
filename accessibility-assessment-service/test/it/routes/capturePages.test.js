@@ -1,6 +1,5 @@
 const express = require('express')
 const request = require('supertest')
-const service = require('../../../app/routes/capturePage')
 const {reset} = require('./../../../app/services/globals')
 
 describe('capturePage', () => {
@@ -9,13 +8,17 @@ describe('capturePage', () => {
     beforeEach(() => {
         app = express();
         app.use(express.json({limit: '500mb',}));
-        app.use("/", service);
+        app.use(require("./../../../app/router"))
+        reset()
+    });
+
+    afterEach(() => {
         reset()
     });
 
     it('should capture a new HTML page', async () => {
         const res = await request(app)
-            .post('/')
+            .post('/api/capture-page')
             .set('Content-Type', 'application/json')
             .send({
                 pageURL: "http://localhost:1234/simple/page/capture",
@@ -30,7 +33,7 @@ describe('capturePage', () => {
 
     it("should not capture a page with URL containing test-only", async () => {
         const res = await request(app)
-            .post('/')
+            .post('/api/capture-page')
             .set('Content-Type', 'application/json')
             .send({
                 pageURL: "http://localhost:1234/test-only/page",
@@ -45,7 +48,7 @@ describe('capturePage', () => {
 
     it("should not capture a page with URL containing -stub", async () => {
         const res = await request(app)
-            .post('/')
+            .post('/api/capture-page')
             .set('Content-Type', 'application/json')
             .send({
                 pageURL: "http://localhost:1234/my-stub/page",
@@ -60,7 +63,7 @@ describe('capturePage', () => {
 
     it("should capture a page with URL matching allowListRegex", async () => {
         const res = await request(app)
-            .post('/')
+            .post('/api/capture-page')
             .set('Content-Type', 'application/json')
             .send({
                 pageURL: "http://localhost:1234/secure-message-stub/page",
@@ -75,7 +78,7 @@ describe('capturePage', () => {
 
     it("should not capture a page which does not match htmlContentRegEx", async () => {
         const res = await request(app)
-            .post('/')
+            .post('/api/capture-page')
             .set('Content-Type', 'application/json')
             .send({
                 pageURL: "http://localhost:1234/simple/page/capture",

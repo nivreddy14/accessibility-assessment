@@ -37,10 +37,6 @@ router.post('/global-filters', function(req, res, next) {
 })
 
 router.post('/reset', async (req, res, next) => {
-  rimraf.sync(config.pagesDirectory);
-  rimraf.sync(path.join(config.outputDir, config.accessibilityAssessmentReportHtml));
-  rimraf.sync(path.join(config.outputDir, config.accessibilityAssessmentReportJson));
-  rimraf.sync(config.globalFilterLocation);
   reset();
   logger.log('INFO', 'Assessment image reset. All pages, configuration updates and reports have been deleted.')
   res.status(200).send();

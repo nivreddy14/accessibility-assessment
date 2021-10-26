@@ -13,16 +13,16 @@ const configurations = {
   base: {
     env,
     port: parseInt(process.env.APP_PORT) || 6010,
-    rootDir: `${serviceRoot}/app/`,
-    outputDir: `${projectRoot}/output/`,
+    rootDir: `${serviceRoot}/temp/`,
+    outputDir: `${serviceRoot}/temp/output/`,
     resourcesDir: `${serviceRoot}/app/resources/`,
     assetsDir: `${serviceRoot}/app/resources/assets/`,
     accessibilityAssessmentReportHtml: 'accessibility-assessment-report.html',
     accessibilityAssessmentReportJson: 'accessibility-assessment-report.json',
     accessibilityAssessmentReportCsv: 'accessibility-assessment-report.csv',
-    globalFilterLocation: `${projectRoot}/app/global-filters.conf`,
+    globalFilterLocation: `${serviceRoot}/global-filters.conf`,
     captureAllPages: false,
-    pagesDirectory: `${projectRoot}/app/pages/`,
+    pagesDirectory: `${serviceRoot}/temp/pages`,
     loggingEnabled: loggingEnabledDefaultFalse
   },
   docker: {
@@ -37,7 +37,8 @@ const configurations = {
   },
   local: {},
   test: {
-    outputDir: `${serviceRoot}/test/resources/`
+    testResourcesDir: `${serviceRoot}/test/resources/`,
+    globalFilterLocation: `${serviceRoot}/test/global-filters.conf`,
   }
 }
 
