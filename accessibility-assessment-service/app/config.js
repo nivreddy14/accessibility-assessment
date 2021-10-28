@@ -13,7 +13,7 @@ const configurations = {
   base: {
     env,
     port: parseInt(process.env.APP_PORT) || 6010,
-    rootDir: `${serviceRoot}/temp/`,
+    rootDir: `${serviceRoot}/temp`,
     outputDir: `${serviceRoot}/temp/output/`,
     resourcesDir: `${serviceRoot}/app/resources/`,
     assetsDir: `${serviceRoot}/app/resources/assets/`,
