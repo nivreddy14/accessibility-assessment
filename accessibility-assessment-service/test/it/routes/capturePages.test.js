@@ -1,6 +1,9 @@
 const express = require('express')
 const request = require('supertest')
 const {reset} = require('./../../../app/services/globals')
+const fs = require('fs')
+const path = require("path");
+const config = require('./../../../app/config')
 
 describe('capturePage', () => {
     let app;
@@ -89,5 +92,23 @@ describe('capturePage', () => {
         expect(res.statusCode).toEqual(201)
         expect(global.status).toEqual('READY')
         expect(global.excludedUrls).toEqual(["http://localhost:1234/simple/page/capture"])
+    });
+
+    it("should not capture js assets for a page", async () => {
+        const res = await request(app)
+            .post('/api/capture-page')
+            .set('Content-Type', 'application/json')
+            .send({
+                pageURL: "http://localhost:1234/simple/page/capture",
+                pageHTML: "<html><head><title>Some title</title></head><main>The contents of the page</main></html>",
+                timestamp: "0000000002",
+                files: {"file1.js": "some contents"}
+            })
+        expect(res.statusCode).toEqual(201)
+        expect(global.status).toEqual('PAGES_CAPTURED')
+
+        const pageDirectory = path.join(config.pagesDirectory, '' + "0000000002")
+        expect(fs.existsSync(path.join(pageDirectory, "index.html"))).toBe(true);
+        expect(fs.existsSync(path.join(pageDirectory, "file1.js"))).toBe(false);
     });
 })
