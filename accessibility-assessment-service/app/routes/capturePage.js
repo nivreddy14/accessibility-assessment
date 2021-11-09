@@ -37,10 +37,13 @@ router.post('/', (req, res, next) => {
     fs.mkdirSync(pageDirectory, { recursive: true })
 
     Object.keys(fileList).forEach(fileName => {
-      fs.writeFile(path.join(pageDirectory, fileName), fileList[fileName], (err, data) => {
-        if (err) {throw err}
-        logger.log('INFO', `Captured ${fileName} for ${body.pageURL}`)
-      })
+      let fileExtension = path.extname(fileName);
+      if(fileExtension !== ".js") {
+        fs.writeFile(path.join(pageDirectory, fileName), fileList[fileName], (err, data) => {
+          if (err) {throw err}
+          logger.log('INFO', `Captured ${fileName} for ${body.pageURL}`)
+        })
+      }
     })
     applicationStatus('PAGES_CAPTURED')
   } else {
