@@ -18,6 +18,7 @@ router.get('/json', (req, res, next) => {
     return res.status(200).json({}).send();
   }
   let filePath = path.join(config.outputDir, config.accessibilityAssessmentReportJson);
+  res.set('Content-Type', 'application/json');
   respondWithFile(filePath, res, next);
 });
 

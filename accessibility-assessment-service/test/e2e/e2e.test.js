@@ -97,11 +97,15 @@ describe('accessibility-assessment-service', () => {
             .set('Accept', 'application/json')
             .then((response) => {
                 expect(response.status).toEqual(200)
-                expect(response.text).toContain('awesome-tests-a11y-tests')
+                expect(response.body['testSuite']).toEqual('awesome-tests-a11y-tests')
+                const axe = response.body['tools'].filter((tool) => tool.name === 'Axe-core')[0]
+                const vnu = response.body['tools'].filter((tool) => tool.name === 'VNU')[0]
                 //violation from axe
-                expect(response.text).toContain('Document has more than one main landmark')
+                expect(JSON.stringify(axe)).toContain('Document has more than one main landmark')
                 //violation from VNU
-                expect(response.text).toContain('A document must not include more than one visible “main” element.')
+                expect(JSON.stringify(vnu)).toContain('A document must not include more than one visible “main” element.')
+                expect(axe['version']).toEqual('4.3.3')
+                expect(vnu['version']).toEqual('21.9.2')
             });
 
         //gets HTML report
