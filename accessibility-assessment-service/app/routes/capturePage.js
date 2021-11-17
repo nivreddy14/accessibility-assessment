@@ -18,8 +18,9 @@ router.post('/', (req, res, next) => {
   logData.pageHTML = logData.pageHTML.substr(0, 100) + '...'
   logData.files = Object.keys(logData.files)
   const ALLOWED_STATUS = ["READY", "PAGES_CAPTURED"]
+  const allowedStatusNotIncluded = (status) => { return !ALLOWED_STATUS.includes(status) }
 
-  if(ALLOWED_STATUS.includes(global.status) === false) {
+  if(allowedStatusNotIncluded(global.status)) {
     logger.log('WARN', `Cannot capture page when status is ${global.status}. URL:${body.pageURL} will not be captured.`)
     return res.status(400).send({error:`Cannot capture page when status is ${global.status}.`})
   }
