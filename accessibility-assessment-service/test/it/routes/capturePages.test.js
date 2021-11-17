@@ -1,6 +1,6 @@
 const express = require('express')
 const request = require('supertest')
-const {reset} = require('./../../../app/services/globals')
+const {reset, applicationStatus} = require('./../../../app/services/globals')
 const fs = require('fs')
 const path = require("path");
 const config = require('./../../../app/config')
@@ -19,7 +19,11 @@ describe('capturePage', () => {
         reset()
     });
 
-    it('should capture a new HTML page', async () => {
+    it.each([
+        "READY",
+        "PAGES_CAPTURED"
+    ])('should capture a new HTML page page when the status is %s', async (status) => {
+        applicationStatus(status);
         const res = await request(app)
             .post('/api/capture-page')
             .set('Content-Type', 'application/json')
@@ -110,5 +114,25 @@ describe('capturePage', () => {
         const pageDirectory = path.join(config.pagesDirectory, '' + "0000000002")
         expect(fs.existsSync(path.join(pageDirectory, "index.html"))).toBe(true);
         expect(fs.existsSync(path.join(pageDirectory, "file1.js"))).toBe(false);
+    });
+
+    it.each([
+        "ASSESSING_PAGES",
+        "REPORT_READY",
+        "PAGE_ASSESSMENT_FAILED",
+    ])('should NOT capture a page when the status is %s', async (status) => {
+        applicationStatus(status);
+        const res = await request(app)
+            .post('/api/capture-page')
+            .set('Content-Type', 'application/json')
+            .send({
+                pageURL: "http://localhost:1234/simple/page/capture",
+                pageHTML: "<html><head><title>Some title</title></head><main>The contents of the page</main></html>",
+                timestamp: "0000000002",
+                files: {"file1": "some contents"}
+            })
+        expect(res.statusCode).toEqual(400)
+        expect(global.status).toEqual(status)
+        expect(global.capturedUrls).toEqual([])
     });
 })

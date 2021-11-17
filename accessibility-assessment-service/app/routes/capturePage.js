@@ -17,6 +17,13 @@ router.post('/', (req, res, next) => {
   const pageDirectory = path.join(config.pagesDirectory, '' + body.timestamp)
   logData.pageHTML = logData.pageHTML.substr(0, 100) + '...'
   logData.files = Object.keys(logData.files)
+  const ALLOWED_STATUS = ["READY", "PAGES_CAPTURED"]
+  const allowedStatusNotIncluded = (status) => { return !ALLOWED_STATUS.includes(status) }
+
+  if(allowedStatusNotIncluded(global.status)) {
+    logger.log('WARN', `Cannot capture page when status is ${global.status}. URL:${body.pageURL} will not be captured.`)
+    return res.status(400).send({error:`Cannot capture page when status is ${global.status}.`})
+  }
 
   //Capture the page for assessment if:
   //   - it hasn't already been captured and onePagePerPath is true
