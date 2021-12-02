@@ -8,6 +8,7 @@ const { applicationStatus } = require('./globals');
 async function runScript(command) {
   let stderr = ''
   try {
+    logger.log("INFO", `Running command \'${command}\'`)
     let { stdout, stderr } = await exec(command, {maxBuffer: 1024 * 4096})
   } catch(error) {
     logger.log('ERROR', `Failed to run script: ${error}`)
@@ -21,9 +22,24 @@ async function runScript(command) {
   }
 }
 
+function artefactLocation() {
+  if (global.buildUrl) {
+    const JENKINS_ARTIFACT_LOCATION = "artifact/pages"
+    return `${global.buildUrl}${JENKINS_ARTIFACT_LOCATION}`
+  }
+  return `http://localhost:${config.port}/api/report/pages`
+}
+
+function buildUrl() {
+  return global.buildUrl || "build-url-not-provided"
+}
+
 module.exports.runAssessment = async () => {
   applicationStatus("ASSESSING_PAGES");
-  await runScript(`cd ${config.resourcesDir} && ./run_assessment.sh ${config.rootDir} ${global.testSuite} ${global.buildUrl}`);
+  await runScript(`cd ${config.resourcesDir} && ./run_assessment.sh ${config.rootDir} ${global.testSuite} ${buildUrl()} ${artefactLocation()}`);
   if(global.status === 'PAGE_ASSESSMENT_FAILED') {return}
   generateHtmlReport();
 }
+
+module.exports.artefactLocation = artefactLocation
+module.exports.buildUrl = buildUrl
