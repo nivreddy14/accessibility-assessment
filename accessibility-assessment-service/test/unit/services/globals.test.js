@@ -1,4 +1,12 @@
-const {applicationStatus, initialiseApp, reset} = require('./../../../app/services/globals')
+const {applicationStatus, initialiseApp, reset, buildUrl} = require('./../../../app/services/globals')
+
+beforeEach(() => {
+    reset()
+});
+
+afterAll(() => {
+    reset()
+});
 
 describe('applicationStatus', () => {
 
@@ -25,5 +33,16 @@ describe('reset', () => {
         expect(global.capturedUrls).toEqual([]);
         expect(global.excludedUrls).toEqual([]);
         expect(global.status).toEqual('READY');
+    });
+});
+
+describe('buildUrl', () => {
+    it("should return 'build-url-not-provided' when 'global.buildUrl' is not defined", () => {
+        expect(buildUrl()).toEqual('build-url-not-provided');
+    });
+
+    it("should return the the buildUrl provided when initialised", () => {
+        initialiseApp('example-accessibility-tests', 'https://build.org.uk/');
+        expect(buildUrl()).toEqual('https://build.org.uk/');
     });
 });

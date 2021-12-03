@@ -32,6 +32,11 @@ module.exports.reset = () => {
   global.buildUrl = ''
 }
 
+function buildUrl() {
+  return global.buildUrl || "build-url-not-provided"
+}
+
 module.exports.captureUrl = (url) => { global.capturedUrls.push(url) }
 module.exports.excludeUrl = (url) => { global.excludedUrls.push(url) }
 module.exports.logErroredAsset = (asset) => { global.erroredAssets.push(asset) }
+module.exports.buildUrl = buildUrl

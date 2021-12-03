@@ -3,7 +3,7 @@ const exec = util.promisify(require('child_process').exec)
 const logger = require('../logger')
 const config = require('../config')
 const { generateHtmlReport } = require('./htmlReport')
-const { applicationStatus } = require('./globals');
+const { applicationStatus, buildUrl } = require('./globals');
 
 async function runScript(command) {
   let stderr = ''
@@ -30,10 +30,6 @@ function artefactLocation() {
   return `http://localhost:${config.port}/api/report/pages`
 }
 
-function buildUrl() {
-  return global.buildUrl || "build-url-not-provided"
-}
-
 module.exports.runAssessment = async () => {
   applicationStatus("ASSESSING_PAGES");
   await runScript(`cd ${config.resourcesDir} && ./run_assessment.sh ${config.rootDir} ${global.testSuite} ${buildUrl()} ${artefactLocation()}`);
@@ -42,4 +38,3 @@ module.exports.runAssessment = async () => {
 }
 
 module.exports.artefactLocation = artefactLocation
-module.exports.buildUrl = buildUrl
