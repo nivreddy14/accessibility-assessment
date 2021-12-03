@@ -10,7 +10,7 @@ afterAll(() => {
 });
 
 describe('artefactLocation', () => {
-    it("should return '/api/report/pages' when 'global.buildUrl' is not defined", () => {
+    it("should return '/api/report/pages' when 'buildUrl()' is 'build-url-not-provided'", () => {
         expect(artefactLocation()).toEqual('http://localhost:6010/api/report/pages');
     });
 

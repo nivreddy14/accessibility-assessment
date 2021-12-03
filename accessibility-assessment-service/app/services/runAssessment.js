@@ -23,11 +23,11 @@ async function runScript(command) {
 }
 
 function artefactLocation() {
-  if (global.buildUrl) {
-    const JENKINS_ARTIFACT_LOCATION = "artifact/pages"
-    return `${global.buildUrl}${JENKINS_ARTIFACT_LOCATION}`
+  if (buildUrl() === "build-url-not-provided") {
+    return `http://localhost:${config.port}/api/report/pages`
   }
-  return `http://localhost:${config.port}/api/report/pages`
+  const JENKINS_ARTIFACT_LOCATION = "artifact/pages"
+  return `${buildUrl()}${JENKINS_ARTIFACT_LOCATION}`
 }
 
 module.exports.runAssessment = async () => {

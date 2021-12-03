@@ -13,7 +13,7 @@ module.exports.applicationStatus = function (newApplicationStatus) {
 module.exports.initialiseApp = function (testSuite, buildUrl) {
   global.testSuite = testSuite
   global.buildUrl = buildUrl
-  logger.log('INFO', `Assessment initialised with test suite name '${global.testSuite}' and build URL '${global.buildUrl}'. `)
+  logger.log('INFO', `Assessment initialised with test suite name '${global.testSuite}' and build URL '${this.buildUrl}'.`)
 }
 
 module.exports.reset = () => {
