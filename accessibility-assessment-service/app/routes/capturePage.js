@@ -38,7 +38,7 @@ router.post('/', (req, res, next) => {
     return res.status(400).send({error:"URL contains the text 'test-only'. This page will not be captured."})
   }
 
-  if (pageIsAlreadyCaptured(body)) {
+  if (urlIsAlreadyCaptured(body)) {
     if (!config.captureAllPages) {
       logger.log('WARN', `URL:${body.pageURL} already captured'`)
       return res.status(400).send({error: "URL already captured."})
@@ -86,7 +86,7 @@ router.post('/', (req, res, next) => {
     return !allowListRegex.test(body.pageURL)
   }
 
-  function pageIsAlreadyCaptured(body) {
+  function urlIsAlreadyCaptured(body) {
     return global.capturedUrls.includes(body.pageURL)
   }
 })
