@@ -1,4 +1,5 @@
 const {applicationStatus, initialiseApp, reset, buildUrl} = require('./../../../app/services/globals')
+const {BUILD_URL_NOT_PROVIDED} = require("../../../app/services/globals");
 
 beforeEach(() => {
     reset()
@@ -37,8 +38,8 @@ describe('reset', () => {
 });
 
 describe('buildUrl', () => {
-    it("should return 'build-url-not-provided' when 'global.buildUrl' is not defined", () => {
-        expect(buildUrl()).toEqual('build-url-not-provided');
+    it("should return BUILD_URL_NOT_PROVIDED when 'global.buildUrl' is not defined", () => {
+        expect(buildUrl()).toEqual(BUILD_URL_NOT_PROVIDED);
     });
 
     it("should return the the buildUrl provided when initialised", () => {

@@ -2,6 +2,7 @@ const logger = require('../logger')
 const rimraf = require("rimraf");
 const config = require("../config");
 const path = require("path");
+const BUILD_URL_NOT_PROVIDED = "build-url-not-provided"
 
 module.exports.applicationStatus = function (newApplicationStatus) {
   if (newApplicationStatus != global.status) {
@@ -33,10 +34,11 @@ module.exports.reset = () => {
 }
 
 function buildUrl() {
-  return global.buildUrl || "build-url-not-provided"
+  return global.buildUrl || BUILD_URL_NOT_PROVIDED
 }
 
 module.exports.captureUrl = (url) => { global.capturedUrls.push(url) }
 module.exports.excludeUrl = (url) => { global.excludedUrls.push(url) }
 module.exports.logErroredAsset = (asset) => { global.erroredAssets.push(asset) }
 module.exports.buildUrl = buildUrl
+module.exports.BUILD_URL_NOT_PROVIDED = BUILD_URL_NOT_PROVIDED

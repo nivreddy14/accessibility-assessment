@@ -3,7 +3,7 @@ const exec = util.promisify(require('child_process').exec)
 const logger = require('../logger')
 const config = require('../config')
 const { generateHtmlReport } = require('./htmlReport')
-const { applicationStatus, buildUrl } = require('./globals');
+const { applicationStatus, buildUrl, BUILD_URL_NOT_PROVIDED} = require('./globals');
 
 async function runScript(command) {
   let stderr = ''
@@ -23,7 +23,7 @@ async function runScript(command) {
 }
 
 function artefactLocation() {
-  if (buildUrl() === "build-url-not-provided") {
+  if (buildUrl() === BUILD_URL_NOT_PROVIDED) {
     return `http://localhost:${config.port}/api/report/pages`
   }
   const JENKINS_ARTIFACT_LOCATION = "artifact/pages"
