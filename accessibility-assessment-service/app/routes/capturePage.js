@@ -3,92 +3,95 @@ const fs = require('fs')
 const path = require('path')
 const logger = require('../logger')
 const config = require('../config')
-const { capture, exclude, error } = require('../services/urls')
-const { applicationStatus } = require('../services/globals')
+const {capture, exclude, error} = require('../services/urls')
+const {applicationStatus} = require('../services/globals')
 
 router.post('/', (req, res, next) => {
-  const body = req.body;
-  const logData = Object.assign({}, body)
-  const pageDirectory = path.join(config.pagesDirectory, '' + body.timestamp)
-  logData.pageHTML = logData.pageHTML.substr(0, 100) + '...'
-  logData.files = Object.keys(logData.files)
-  const ALLOWED_STATUS = ["READY", "PAGES_CAPTURED"]
-  const allowedStatusNotIncluded = (status) => { return !ALLOWED_STATUS.includes(status) }
-
-  if(allowedStatusNotIncluded(global.status)) {
-    logger.log('WARN', `Cannot capture page when status is ${global.status}. URL:${body.pageURL} will not be captured.`)
-    return res.status(400).send({error:`Cannot capture page when status is ${global.status}.`})
-  }
-
-  if (pageIsNotHTML(body)){
-    logger.log('WARN', `Cannot assess non-HTML page. URL:${body.pageURL} will not be captured.`)
-    exclude(body.pageURL)
-    return res.status(400).send({error:`Cannot capture non-HTML page`})
-  }
-
-  if (urlIsAStub(body) && urlIsNotInAllowList(body)){
-    logger.log('WARN', `URL:${body.pageURL} contains the text 'stub'. This page will not be captured.`)
-    exclude(body.pageURL)
-    return res.status(400).send({error:"URL contains the text 'stub'. This page will not be captured."})
-  }
-
-  if (urlIsTestOnly(body) && urlIsNotInAllowList(body)){
-    logger.log('WARN', `URL:${body.pageURL} contains the text 'test-only'. This page will not be captured.`)
-    exclude(body.pageURL)
-    return res.status(400).send({error:"URL contains the text 'test-only'. This page will not be captured."})
-  }
-
-  if (urlIsAlreadyCaptured(body)) {
-    if (!config.captureAllPages) {
-      logger.log('WARN', `URL:${body.pageURL} already captured'`)
-      return res.status(400).send({error: "URL already captured."})
+    const body = req.body;
+    const logData = Object.assign({}, body)
+    const pageDirectory = path.join(config.pagesDirectory, '' + body.timestamp)
+    logData.pageHTML = logData.pageHTML.substr(0, 100) + '...'
+    logData.files = Object.keys(logData.files)
+    const ALLOWED_STATUS = ["READY", "PAGES_CAPTURED"]
+    const allowedStatusNotIncluded = (status) => {
+        return !ALLOWED_STATUS.includes(status)
     }
-  }
 
+    if (allowedStatusNotIncluded(global.status)) {
+        logger.log('WARN', `Cannot capture page when status is ${global.status}. URL:${body.pageURL} will not be captured.`)
+        return res.status(400).send({error: `Cannot capture page when status is ${global.status}.`})
+    }
+
+    if (pageIsNotHTML(body)) {
+        logger.log('WARN', `Cannot assess non-HTML page. URL:${body.pageURL} will not be captured.`)
+        exclude(body.pageURL)
+        return res.status(400).send({error: `Cannot capture non-HTML page`})
+    }
+
+    if (urlIsAStub(body) && urlIsNotInAllowList(body)) {
+        logger.log('WARN', `URL:${body.pageURL} contains the text 'stub'. This page will not be captured.`)
+        exclude(body.pageURL)
+        return res.status(400).send({error: "URL contains the text 'stub'. This page will not be captured."})
+    }
+
+    if (urlIsTestOnly(body) && urlIsNotInAllowList(body)) {
+        logger.log('WARN', `URL:${body.pageURL} contains the text 'test-only'. This page will not be captured.`)
+        exclude(body.pageURL)
+        return res.status(400).send({error: "URL contains the text 'test-only'. This page will not be captured."})
+    }
+
+    if (urlIsAlreadyCaptured(body)) {
+        if (!config.captureAllPages) {
+            logger.log('WARN', `URL:${body.pageURL} already captured'`)
+            return res.status(400).send({error: "URL already captured."})
+        }
+    }
 
     for (var assetError in logData.errors) {
-      error(logData.errors[assetError].failedUrl, body.pageURL)
-    };
+        error(logData.errors[assetError].failedUrl, body.pageURL)
+    }
 
     capture(body.pageURL)
     const fileList = Object.assign({}, body.files, {'index.html': body.pageHTML}, {'data': body.pageURL})
-    fs.mkdirSync(pageDirectory, { recursive: true })
+    fs.mkdirSync(pageDirectory, {recursive: true})
 
     Object.keys(fileList).forEach(fileName => {
-      let fileExtension = path.extname(fileName);
-      if(fileExtension !== ".js") {
-        fs.writeFile(path.join(pageDirectory, fileName), fileList[fileName], (err, data) => {
-          if (err) {throw err}
-          logger.log('INFO', `Captured ${fileName} for ${body.pageURL}`)
-        })
-      }
+        let fileExtension = path.extname(fileName);
+        if (fileExtension !== ".js") {
+            fs.writeFile(path.join(pageDirectory, fileName), fileList[fileName], (err, data) => {
+                if (err) {
+                    throw err
+                }
+                logger.log('INFO', `Captured ${fileName} for ${body.pageURL}`)
+            })
+        }
     })
-  applicationStatus('PAGES_CAPTURED')
-  res.status('201').send()
+    applicationStatus('PAGES_CAPTURED')
+    res.status('201').send()
 
-  function pageIsNotHTML(body) {
-    let htmlContentRegEx = RegExp('<\\s*html[^>]*>([\\s\\S]*?)<\\s*\/\\s*html>');
-    return !htmlContentRegEx.test(body.pageHTML)
-  }
+    function pageIsNotHTML(body) {
+        let htmlContentRegEx = RegExp('<\\s*html[^>]*>([\\s\\S]*?)<\\s*\/\\s*html>');
+        return !htmlContentRegEx.test(body.pageHTML)
+    }
 
-  function urlIsAStub(body) {
-    let stubRegEx = RegExp('http:\/\/localhost:[0-9]{4}\/([a-z/-]+\-stub)');
-    return stubRegEx.test(body.pageURL)
-  }
+    function urlIsAStub(body) {
+        let stubRegEx = RegExp('http:\/\/localhost:[0-9]{4}\/([a-z/-]+\-stub)');
+        return stubRegEx.test(body.pageURL)
+    }
 
-  function urlIsTestOnly(body) {
-    let testOnlyRegEx = RegExp('test\-only');
-    return testOnlyRegEx.test(body.pageURL)
-  }
+    function urlIsTestOnly(body) {
+        let testOnlyRegEx = RegExp('test\-only');
+        return testOnlyRegEx.test(body.pageURL)
+    }
 
-  function urlIsNotInAllowList(body) {
-    let allowListRegex = RegExp('http:\/\/localhost:[0-9]{4}\/(secure-message-stub)');
-    return !allowListRegex.test(body.pageURL)
-  }
+    function urlIsNotInAllowList(body) {
+        let allowListRegex = RegExp('http:\/\/localhost:[0-9]{4}\/(secure-message-stub)');
+        return !allowListRegex.test(body.pageURL)
+    }
 
-  function urlIsAlreadyCaptured(body) {
-    return global.capturedUrls.includes(body.pageURL)
-  }
+    function urlIsAlreadyCaptured(body) {
+        return global.capturedUrls.includes(body.pageURL)
+    }
 })
 
 module.exports = router;
