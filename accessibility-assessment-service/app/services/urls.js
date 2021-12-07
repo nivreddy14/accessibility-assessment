@@ -7,8 +7,10 @@ module.exports.capture = function (url) {
 }
 
 module.exports.exclude = function (url) {
-  excludeUrl(url);
-  logger.log("INFO", `Excluded page with URL: ${url}`);
+  if(!global.excludedUrls.includes(url)) {
+    excludeUrl(url);
+    logger.log("INFO", `Excluded page with URL: ${url}`);
+  }
 }
 
 module.exports.error = function (path, url) {
