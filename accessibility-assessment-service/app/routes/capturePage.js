@@ -39,8 +39,10 @@ router.post('/', (req, res, next) => {
   }
 
   if (pageIsAlreadyCaptured(body)) {
-    logger.log('WARN', `URL:${body.pageURL} already captured'`)
-    return res.status(400).send({error:"URL already captured."})
+    if (!config.captureAllPages) {
+      logger.log('WARN', `URL:${body.pageURL} already captured'`)
+      return res.status(400).send({error: "URL already captured."})
+    }
   }
 
 
@@ -85,7 +87,7 @@ router.post('/', (req, res, next) => {
   }
 
   function pageIsAlreadyCaptured(body) {
-    return config.captureAllPages === 'false' && global.capturedUrls.includes(body.pageURL)
+    return global.capturedUrls.includes(body.pageURL)
   }
 })
 

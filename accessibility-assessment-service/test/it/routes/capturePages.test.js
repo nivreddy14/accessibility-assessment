@@ -4,6 +4,7 @@ const {reset, applicationStatus} = require('./../../../app/services/globals')
 const fs = require('fs')
 const path = require("path");
 const config = require('./../../../app/config')
+const {capture} = require("../../../app/services/urls");
 
 describe('capturePage', () => {
     let app;
@@ -134,5 +135,23 @@ describe('capturePage', () => {
         expect(res.statusCode).toEqual(400)
         expect(global.status).toEqual(status)
         expect(global.capturedUrls).toEqual([])
+    });
+
+    it('should not capture a HTML page when it is already captured', async () => {
+        capture("http://localhost:1234/simple/page/capture")
+        applicationStatus('PAGES_CAPTURED');
+
+        const res = await request(app)
+            .post('/api/capture-page')
+            .set('Content-Type', 'application/json')
+            .send({
+                pageURL: "http://localhost:1234/simple/page/capture",
+                pageHTML: "<html><head><title>Some title</title></head><main>The contents of the page</main></html>",
+                timestamp: "0000000002",
+                files: {"file1": "some contents"}
+            })
+        expect(res.statusCode).toEqual(400)
+        expect(global.status).toEqual('PAGES_CAPTURED')
+        expect(global.capturedUrls).toEqual(["http://localhost:1234/simple/page/capture"])
     });
 })
