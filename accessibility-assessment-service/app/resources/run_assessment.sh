@@ -1,16 +1,11 @@
 #!/usr/bin/env bash
 root_dir=$1
 test_suite_name=${2:-not-set}
-build_url=${3:-}
+build_url=${3}
+artefact_location=${4}
 
 # If a build url is passed to this script, the artefact_location should be given an
 # absolute reference.
-if [ -z "$3" ]
-then
-  artefact_location="${root_dir}/pages"
-else
-  artefact_location=${build_url}artifact/pages
-fi
 
 java -Dtest.suite.name="${test_suite_name}" \
      -Duser.dir="${root_dir}" \

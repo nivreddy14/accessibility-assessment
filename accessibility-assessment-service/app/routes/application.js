@@ -3,7 +3,7 @@ var rimraf = require("rimraf");
 const fs = require("fs");
 const path = require('path')
 const logger = require('../logger')
-const { initialiseApp, reset } = require('../services/globals')
+const { initialiseApp, reset, buildUrl } = require('../services/globals')
 const config = require('../config')
 const fileupload = require('express-fileupload')
 
@@ -16,7 +16,7 @@ router.post('/initialise', async (req, res, next) => {
     return next(err);
   }
   await initialiseApp(req.body.testSuite, req.body.buildUrl);
-  res.status(200).json({ applicationStatus: global.status, testSuite: global.testSuite, buildUrl: global.buildUrl}).send();
+  res.status(200).json({ applicationStatus: global.status, testSuite: global.testSuite, buildUrl: buildUrl()}).send();
 })
 
 router.post('/global-filters', function(req, res, next) {
