@@ -48,7 +48,7 @@ describe('capturePage', () => {
                 timestamp: "0000000002",
                 files: {"file1": "some contents"}
             })
-        expect(res.statusCode).toEqual(201)
+        expect(res.statusCode).toEqual(400)
         expect(global.status).toEqual('READY')
         expect(global.excludedUrls).toEqual(["http://localhost:1234/test-only/page"])
     });
@@ -63,7 +63,7 @@ describe('capturePage', () => {
                 timestamp: "0000000002",
                 files: {"file1": "some contents"}
             })
-        expect(res.statusCode).toEqual(201)
+        expect(res.statusCode).toEqual(400)
         expect(global.status).toEqual('READY')
         expect(global.excludedUrls).toEqual(["http://localhost:1234/my-stub/page"])
     });
@@ -93,7 +93,7 @@ describe('capturePage', () => {
                 timestamp: "0000000002",
                 files: {"file1": "some contents"}
             })
-        expect(res.statusCode).toEqual(201)
+        expect(res.statusCode).toEqual(400)
         expect(global.status).toEqual('READY')
         expect(global.excludedUrls).toEqual(["http://localhost:1234/simple/page/capture"])
     });
