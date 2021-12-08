@@ -1,5 +1,6 @@
 const logger = require('../logger')
 const { captureUrl, excludeUrl, logErroredAsset } = require('./globals');
+const notInExcludedUrls = (url) => { return !global.excludedUrls.includes(url) }
 
 module.exports.capture = function (url) {
   captureUrl(url);
@@ -7,7 +8,7 @@ module.exports.capture = function (url) {
 }
 
 module.exports.exclude = function (url) {
-  if(!global.excludedUrls.includes(url)) {
+  if(notInExcludedUrls(url)) {
     excludeUrl(url);
     logger.log("INFO", `Excluded page with URL: ${url}`);
   }
