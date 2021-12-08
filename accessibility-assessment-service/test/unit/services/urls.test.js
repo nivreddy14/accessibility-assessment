@@ -12,8 +12,15 @@ describe('capture', () => {
 
 describe('exclude', () => {
 
-    it('should add the provided URL to excludedUrls', () => {
+    it('should add URL to excludedUrls when it is not already excluded', () => {
         reset()
+        exclude("https://localhost:9090/route/path")
+        expect(global.excludedUrls).toEqual(["https://localhost:9090/route/path"])
+    });
+
+    it('should not add URL to excludedUrls when it is already excluded', () => {
+        reset()
+        exclude("https://localhost:9090/route/path")
         exclude("https://localhost:9090/route/path")
         expect(global.excludedUrls).toEqual(["https://localhost:9090/route/path"])
     });
