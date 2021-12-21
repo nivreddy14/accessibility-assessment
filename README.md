@@ -1,5 +1,5 @@
 # Accessibility Assessment Service
-The accessibility assessment service is published as a docker image, and runs as a sidecar container to our jenkins agents.  It exposes a REST API for capturing complete web pages (HTML, js, css) which are then assessed with [axe](https://www.deque.com/axe/) and [Nu HTML Checker](https://validator.github.io/validator/).  The service then creates a basic HTML report of the violations found which is archived in Jenkins, and in our Management instance of Kibana.
+The accessibility assessment service is published as a docker image, and runs as a sidecar container to our jenkins agents.  It exposes a REST API for capturing complete web pages (HTML, js, css) which are then assessed with [axe](https://www.deque.com/axe/) and [Nu HTML Checker](https://validator.github.io/validator/).  The service then creates a [basic HTML report](docs/READING-THE-REPORT.md) of the violations found which is archived in Jenkins, and in our Management instance of Kibana.
 
 At present the image is made up of the following components:
 - **accessibility-assessment-service**
@@ -255,6 +255,8 @@ Provides the accessibility assessment report. The valid types are:
 - `html` - Returns an HTML report
 - `csv`  - Returns the report in CSV format
 - `bundle` - Returns a zipped file which contains all the captured pages, and the HTML report
+
+Guidance on how to understand the generated HTML report can be found [here](docs/READING-THE-REPORT.md).
 
 #### GET api/app/reset
 An endpoint to reset the app by removing the captured pages and any previously generated reports. Used in 
