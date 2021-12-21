@@ -256,7 +256,7 @@ Provides the accessibility assessment report. The valid types are:
 - `csv`  - Returns the report in CSV format
 - `bundle` - Returns a zipped file which contains all the captured pages, and the HTML report
 
-Guidance on how to understand the generated HTML report can be found [here](docs/READING-THE-REPORT.md).
+> :grey_question: Guidance on how to understand the generated HTML report can be found [here](docs/READING-THE-REPORT.md).
 
 #### GET api/app/reset
 An endpoint to reset the app by removing the captured pages and any previously generated reports. Used in 
