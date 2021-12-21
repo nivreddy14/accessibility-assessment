@@ -1,3 +1,6 @@
+mixin link(linkText,anchor)
+  a(href="https://github.com/hmrc/accessibility-assessment/docs/READING-THE-REPORT.md" + anchor,target='_blank', title="Click here to view further information about this report")= linkText
+
 doctype html
 html(lang="en")
   head
@@ -6,6 +9,7 @@ html(lang="en")
     style=assets.stylesheet
   body
     h1 HMRC Accessibility report for #{original.testSuite}
+    p Get some help from our latest #[+link('report documentation','')].
     article
       h2 Summary
         .summary
@@ -45,14 +49,14 @@ html(lang="en")
           table.violations
             thead
               tr
-                th.path URL Path
-                th.code Code (axe docs)
-                th.description Description
-                th.snippet Snippet
-                th.alert Alert Level
-                th.severity Severity
-                th.knownIssue Known Issue
-                th.info Further Information
+                th.path URL Path #[+link('(?)','#url-path')]
+                th.code Code (axe docs) #[+link('(?)','#code-axe-docs')]
+                th.description Description #[+link('(?)','#description')]
+                th.snippet Snippet #[+link('(?)','#snippet')]
+                th.alert Alert Level #[+link('(?)','#alert-level')]
+                th.severity Severity #[+link('(?)','#severity')]
+                th.knownIssue Known Issue #[+link('(?)','#known-issue')]
+                th.info Further Information #[+link('(?)','#further-information')]
             tbody
               each path in tool.paths
                 each page in path.pages
