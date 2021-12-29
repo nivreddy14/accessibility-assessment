@@ -58,7 +58,7 @@ body {
 
   .info,
   .snippet {
-    width:((8%*4+12)/2)// 69%
+    width:((8%*4+12)/2);// 69%
 
     pre {
       width: auto;
@@ -112,19 +112,18 @@ body {
       display: inline-block;
       padding: 0;
       margin: 0 5px 0 0;
+      background: #e5e3e3;
 
       a:active,
       a:hover,
       a:link,
       a:visited {
         display: inline-block;
-        padding: 8px 15px;
         color: black;
-        border: 2px solid black;
         border-bottom: 0 none;
         margin: 0;
-        text-decoration: none;
         font-weight: bold;
+        padding: 10px;
       }
 
       &.tab--active {
@@ -132,9 +131,63 @@ body {
         a:hover,
         a:link,
         a:visited {
-          background: #e3e3e3;
+          background: #fff;
+          border: 1px solid black;
+          border-bottom: none;
+          text-decoration: none;
+          padding: 12px 10px;
         }
       }
+    }
+  }
+}
+
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+
+  thead {
+    text-align: left;
+  }
+
+  tr {
+    border-collapse: separate;
+    border-top: 1px solid #dedada;
+  }
+
+  th, td {
+    padding: 10px;
+  }
+}
+.severity {
+  $foreground-red: #942514;
+  $background-red: #f6d7d2;
+  $foreground-orange: #594d00;
+  $background-orange: #fff7bf;
+  $foreground-green: #005a30;
+  $background-green: #cce2d8;
+
+  span {
+    padding: 5px;
+    text-transform: uppercase;
+    text-align: center;
+
+    &.info {
+      color: $foreground-green;
+      background: $background-green;
+    }
+
+    &.minor,
+    &.moderate {
+      color: $foreground-orange;
+      background: $background-orange;
+    }
+
+    &.error,
+    &.serious,
+    &.critical {
+      color: $foreground-red;
+      background: $background-red;
     }
   }
 }

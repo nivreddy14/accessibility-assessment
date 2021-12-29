@@ -72,7 +72,28 @@ html(lang="en")
                       td.snippet
                         span.code=violation.snippet
                       td.alert=violation.alertLevel
-                      td.severity=violation.severity
+                      case violation.severity
+                        when 'info'
+                            td.severity
+                                span.info=violation.severity
+                        when 'minor'
+                            td.severity
+                                span.minor=violation.severity
+                        when 'moderate'
+                            td.severity
+                                span.moderate=violation.severity
+                        when 'error'
+                            td.severity
+                                span.error=violation.severity
+                        when 'serious'
+                            td.severity
+                                span.serious=violation.severity
+                        when 'critical'
+                            td.severity
+                                span.critical=violation.severity
+                        default
+                            td.severity
+                                span=violation.severity
                       td.knownIssue=violation.knownIssue
                       td.info
                         span.info #{violation.furtherInformation}
