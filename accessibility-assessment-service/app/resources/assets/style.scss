@@ -155,7 +155,7 @@ table {
     border-top: 1px solid #dedada;
   }
 
-  tr:nth-child(even) {
+  tbody tr:nth-child(odd) {
     background: #f3f2f2
   }
 
