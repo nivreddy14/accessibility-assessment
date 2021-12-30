@@ -150,6 +150,10 @@ table {
     text-align: left;
   }
 
+  thead th {
+    cursor:pointer;
+  }
+
   tr {
     border-collapse: separate;
     border-top: 1px solid #dedada;

@@ -59,3 +59,36 @@ document.querySelector('body').classList.add('js-enabled')
     )
   })
 })();
+
+// Table Sort
+// Remember that strings are false positives for isNaN
+const isEmptyOrNaN = (obj) => obj === "" || isNaN(obj);
+
+const getCellValueInColumn = (tr, columnIdx) =>
+    tr.children[columnIdx].innerText || tr.children[columnIdx].textContent;
+
+const compareCellValues = (cellValue1, cellValue2) => {
+  return isEmptyOrNaN(cellValue1) || isEmptyOrNaN(cellValue2)
+      ? cellValue1.toString().localeCompare(cellValue2)
+      : cellValue1 - cellValue2;
+};
+
+const compareFnFactory = (columnIdx, ascending) => (firstEl, secondEl) => {
+  const cellValue1 = getCellValueInColumn(firstEl, columnIdx);
+  const cellValue2 = getCellValueInColumn(secondEl, columnIdx);
+  return ascending
+      ? compareCellValues(cellValue1, cellValue2)
+      : compareCellValues(cellValue2, cellValue1);
+};
+
+document.querySelectorAll("th").forEach((th) =>
+    th.addEventListener("click", () => {
+      const table = th.closest("table");
+      const tbody = table.querySelector("tbody");
+      const columnIdx = Array.from(th.parentNode.children).indexOf(th);
+      const compareFn = compareFnFactory(columnIdx, (this.ascending = !this.ascending));
+      Array.from(tbody.querySelectorAll("tr"))
+          .sort(compareFn)
+          .forEach((tr) => tbody.appendChild(tr));
+    })
+);
