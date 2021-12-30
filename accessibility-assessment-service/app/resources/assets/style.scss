@@ -191,3 +191,11 @@ table {
     }
   }
 }
+
+ul span {
+  padding-right: 10px;
+  font-weight: 700;
+}
+ul button, ul span {
+  float: right;
+}

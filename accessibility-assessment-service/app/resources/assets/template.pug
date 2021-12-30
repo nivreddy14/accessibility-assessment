@@ -35,12 +35,13 @@ html(lang="en")
               dd=tool.pageCount
 
     article
-      button(class='button show-error') Show Only Errors
-      button(class='button hide-known-issues') Hide Known Issues
-      button(class='button show-all') Show All
       h2 Violations
       nav.tabs
         ul
+          button(class='button show-all') Show All Violations
+          button(class='button hide-known-issues') Hide Known Issues
+          button(class='button show-error') Show Only Errors
+          span Filter:
           each tool in tools
             li.tab
              a(href="#" + tool.techName)= tool.name
