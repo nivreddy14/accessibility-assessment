@@ -50,7 +50,8 @@ html(lang="en")
             thead
               tr
                 th.path URL Path #[+link('(?)','#url-path')]
-                th.code Code (axe docs) #[+link('(?)','#code-axe-docs')]
+                if tool.techName == 'axe'
+                  th.code Code (axe docs) #[+link('(?)','#code-axe-docs')]
                 th.description Description #[+link('(?)','#description')]
                 th.snippet Snippet #[+link('(?)','#snippet')]
                 th.alert Alert Level #[+link('(?)','#alert-level')]
@@ -66,8 +67,9 @@ html(lang="en")
                     tr(class=violationType)
                       td.path
                         a(href=violation.capturedPage,target='_blank') #{path.path}
-                      td.code
-                        a(href=violation.helpUrl,target='_blank') #{violation.code}
+                      if tool.techName == 'axe'
+                        td.code
+                          a(href=violation.helpUrl,target='_blank') #{violation.code}
                       td.description=violation.description
                       td.snippet
                         span.code=violation.snippet
