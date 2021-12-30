@@ -1,8 +1,7 @@
 {
 	"info": {
+		"_postman_id": "d3550d2f-4cc6-4468-9d7f-fe5e57103a57",
 		"name": "Accessibility Assessment Tests",
-		"_postman_id": "441c7ad6-0f46-4ad0-b274-c365abdc2bfb",
-		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -11,7 +10,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
 				"url": {
 					"raw": "http://localhost:6010/api/status",
 					"protocol": "http",
@@ -23,8 +21,7 @@
 						"api",
 						"status"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
@@ -33,7 +30,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
 				"url": {
 					"raw": "http://localhost:6010/api/logs/urls",
 					"protocol": "http",
@@ -46,8 +42,7 @@
 						"logs",
 						"urls"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
@@ -56,7 +51,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
 				"url": {
 					"raw": "http://localhost:6010/api/logs/app",
 					"protocol": "http",
@@ -69,8 +63,7 @@
 						"logs",
 						"app"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
@@ -79,7 +72,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
 				"url": {
 					"raw": "http://localhost:6010/api/report/bundle",
 					"protocol": "http",
@@ -92,8 +84,7 @@
 						"report",
 						"bundle"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
@@ -102,7 +93,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
 				"url": {
 					"raw": "http://localhost:6010/api/report/json",
 					"protocol": "http",
@@ -115,8 +105,7 @@
 						"report",
 						"json"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
@@ -146,8 +135,7 @@
 						"app",
 						"initialise"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
@@ -166,8 +154,8 @@
 					"formdata": [
 						{
 							"key": "filter",
-							"description": "",
-							"type": "file"
+							"type": "file",
+							"src": []
 						}
 					]
 				},
@@ -183,8 +171,7 @@
 						"app",
 						"global-filters"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
@@ -214,8 +201,7 @@
 						"app",
 						"initialise"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
@@ -245,8 +231,7 @@
 						"app",
 						"reset"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
@@ -275,8 +260,36 @@
 						"api",
 						"capture-page"
 					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Page Capture (All Severities)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"pageURL\": \"http://localhost:1234/simple/page/{{$randomLoremWord}}\",\n    \"pageHTML\": \"<html><head><title>Some title</title><style>body{background-color:black;} .cbanner-govuk-width-container{margin-right:max(15px, calc(15px + env(safe-area-inset-right)));margin-left:max(15px, calc(15px + env(safe-area-inset-left)))}}@media (min-width: 40.0625em){.cbanner-govuk-width-container{margin-right:30px;margin-left:30px} .test {color:white;background-color:orange;font-size:8px;margin-left:0;}.organisation-logo {background: url(../images/crests/hmrc_crest_18px.png) 5px center no-repeat; padding: 3px 0 3px 38px;}</style></head><div class='logo'><span class='organisation-logo organisation-logo-medium'> HM Revenue &amp; Customs </span></div><main>The contents of the page</main><main><h3></h3>The contents of the page <img src=''/></main></html>\",\n    \"timestamp\": \"{{$timestamp}}\",\n    \"files\": { \"file1\": \"some contents\" } \n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "http://localhost:6010/api/capture-page",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6010",
+					"path": [
+						"api",
+						"capture-page"
+					]
+				}
 			},
 			"response": []
 		},
@@ -305,8 +318,7 @@
 						"api",
 						"capture-page"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
@@ -335,8 +347,7 @@
 						"api",
 						"capture-page"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
@@ -365,8 +376,7 @@
 						"api",
 						"capture-page"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
@@ -375,7 +385,6 @@
 			"request": {
 				"method": "POST",
 				"header": [],
-				"body": {},
 				"url": {
 					"raw": "http://localhost:6010/api/assess-pages",
 					"protocol": "http",
@@ -387,8 +396,7 @@
 						"api",
 						"assess-pages"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		}
