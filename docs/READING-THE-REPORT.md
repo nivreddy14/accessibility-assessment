@@ -35,11 +35,9 @@ Each tab displays a number of different columns within the issues table. The fol
 The URL Path of the page that was assessed. This links to the page that was captured during the assessment.
 
 ## Code (axe docs)
-Despite this column being displayed within both the `Axe-core` and `VNU` tabs of the report, the information within this column is specific to Axe-core.
+This column is specific to Axe-core and so is only displayed when the `Axe-core` tab is currently selected.
 
-The text in this column and link is related to Axe-core and links off to the tools dequeuniversity.com where the site explains further information on the violation and how to fix the problem
-
-When viewing this column within the VNU tab, this column can be ignored. This column displays `UNDEFINED` and has an invalid hyperlink. This is because of an implementation detail with generating the report and will be addressed in the near future.
+The text displayed within this column is the identifier that axe-core uses to differentiate between each of the accessibility violations it finds. The link navigates to dequeuniversity.com that displays further information about the violation as well as information on how to potentially fix it.
 
 ## Description
 The description field includes the description of the violation as described by Axe-core and VNU.
