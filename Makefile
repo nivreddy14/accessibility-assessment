@@ -26,6 +26,11 @@ run_local: build_local ## Builds and runs the accessibility-assessment container
 	@echo '********** Starting a11y container for local use ************'
 	@docker run -d --rm --name a11y -p 6010:6010 accessibility-assessment:SNAPSHOT
 
+run_latest_artifactory: stop_local ## Builds and runs the accessibility-assessment container locally
+	@echo '********** Starting a11y container for local use ************'
+	@docker pull artefacts.tax.service.gov.uk/accessibility-assessment:latest
+	@docker run -d --rm --name a11y -v /Users/vivrichards/dev/hmrc/accessibility-assessment/pages:/home/seluser/pages -p 6010:6010 artefacts.tax.service.gov.uk/accessibility-assessment:latest
+
 stop_local: ## Stops the a11y container
 	@echo '********** Stopping a11y container running locally ************'
 	@docker stop a11y || (echo "a11y container not running. Nothing to stop."; exit 0)
