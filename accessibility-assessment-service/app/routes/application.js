@@ -3,9 +3,11 @@ var rimraf = require("rimraf");
 const fs = require("fs");
 const path = require('path')
 const logger = require('../logger')
-const { initialiseApp, reset, buildUrl } = require('../services/globals')
+const { initialiseApp, reset, buildUrl, applicationStatus} = require('../services/globals')
 const config = require('../config')
 const fileupload = require('express-fileupload')
+const util = require("util");
+const exec = util.promisify(require('child_process').exec)
 
 router.use(fileupload())
 
@@ -32,6 +34,26 @@ router.post('/global-filters', function(req, res, next) {
       }
     })
     logger.log(`${config.globalFilterLocation} updated.`)
+    res.status(201).send();
+  }
+})
+
+router.post('/pages', async(req, res, next) => {
+
+  if (!req.files.filter) {
+    let error = new Error("No pages zip file present in request.")
+    error.status = 400
+    return next(error)
+  } else {
+    fs.mkdirSync(`${process.env.HOME}/pages/`, {recursive: true})
+    fs.writeFile(`${process.env.HOME}/pages/file.zip` , req.files.filter.data, (error, data) => {
+      if (error) {
+        return next(error);
+      }
+    })
+    await exec(`cd ${process.env.HOME}/pages/  &&  unzip file.zip && rm file.zip`, {maxBuffer: 1024 * 4096})
+    applicationStatus('PAGES_CAPTURED')
+    logger.log(`${config.pagesDirectory} updated.`)
     res.status(201).send();
   }
 })
