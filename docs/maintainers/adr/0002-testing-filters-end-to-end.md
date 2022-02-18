@@ -1,6 +1,7 @@
 # Testing filters end to end
 
-* Status: proposed
+* Status: accepted
+* Deciders: platui
 * Date: 2022-02-11
 
 Technical Story: [PLATUI-1544](https://jira.tools.tax.service.gov.uk/browse/PLATUI-1544)
@@ -72,4 +73,4 @@ Cons:
 
 ## Decision Outcome
 
-Chosen option: Pending
+Chosen option: Option 4. Using the report output from axe and vnu as an input 
