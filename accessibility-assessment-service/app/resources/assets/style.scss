@@ -15,6 +15,8 @@ body {
   dl {
     margin: 0;
     padding: 0;
+    border: 1px solid black;
+    border-bottom: none;
 
     &:nth-child(even) {
       dd,
@@ -26,19 +28,19 @@ body {
     dd,
     dt {
       display: inline-block;
-      border: 1px solid black;
       border-bottom: 0 none;
       margin: 0;
       padding: 0.3em;
+      vertical-align: top;
+      width: 50%;
     }
 
     dt {
-      width: 40%;
       border-right: 0 none;
     }
 
     dd {
-      width: 60%;
+      border-left: 1px solid black;
     }
   }
 }
