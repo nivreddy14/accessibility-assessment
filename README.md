@@ -302,7 +302,7 @@ This is also the version used in Build Jenkins.
 ```
 
 2. In order to configure the accessibility tests to run you will need to pass a 
-   system property `accessibility-test=true`.
+   system property `accessibility.test=true`.
 
 e.g. `sbt -Dbrowser='chrome' -Denvironment='local' -Daccessibility.test=true 'testOnly uk.gov.hmrc.test.ui.specs.*'`
 
