@@ -21,6 +21,9 @@ html(lang="en")
             dd
               a(href=original.buildUrl) #{original.buildNo}
           dl
+            dt Number of Pages Captured
+            dd=original.numberOfPagesCaptured
+          dl
             dt Total Error Count
             dd=totalErrorCount
           each tool in tools
@@ -30,9 +33,6 @@ html(lang="en")
             dl
               dt #{tool.name} Version
               dd=tool.version
-            dl
-              dt #{tool.name} Page Count
-              dd=tool.pageCount
 
     article
       button(class='button show-error') Show Only Errors
