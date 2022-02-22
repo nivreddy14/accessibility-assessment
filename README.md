@@ -258,7 +258,7 @@ Provides the accessibility assessment report. The valid types are:
 
 > Guidance on how to understand the generated HTML report can be found [here](docs/READING-THE-REPORT.md).
 
-#### GET api/app/reset
+#### POST api/app/reset
 An endpoint to reset the app by removing the captured pages and any previously generated reports. Used in 
 [accessibility-assessment-tests](https://github.com/hmrc/accessibility-assessment-tests) for resetting the service 
 in between tests.  
