@@ -10,19 +10,17 @@ The first part of the generated HTML report is the summary. The summary displays
 
 `Build No` - A number to be able to uniquely identify each build job run as well as display how many times Jenkins has run this job.
 
+`Number of Pages Captured` - The number of pages captured to be assessed.
+
 `Total Error Count` - The total number of errors raised by both Axe-core and VNU during the assessment. This includes known issues identified by the Platform.
 
 `Axe-core Error Count` - The number of errors raised by Axe-core. This includes known issues identified by the Platform
 
 `Axe-core Version` - The version of Axe-core used to carry out the assessment. If you are looking to reproduce an issue manually using a browser plugin, ensure the axe-core version used by the plugin matches this version used by the job builder.
 
-`Axe-core Page Count` - The number of pages Axe-core ran against.
-
 `VNU Error Count` - The number of errors raised by VNU. This includes known issues identified by the Platform
 
 `VNU Version` - The version of VNU used to carry out the assessment. If you are looking to reproduce an issue manually using a local VNU installation, ensure the local VNU version matches this version used by the job builder.
-
-`VNU Page Count` - The number of pages VNU ran against.
 
 # Report columns
 The violations raised from Axe-core and VNU are made available under two different tabs within the generated HTML report.
