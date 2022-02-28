@@ -1,3 +1,8 @@
+/*
+ * Copyright 2022 HM Revenue & Customs
+ *
+ */
+
 package uk.gov.hmrc.a11y.config
 
 import com.typesafe.config.{Config, ConfigException, ConfigFactory}

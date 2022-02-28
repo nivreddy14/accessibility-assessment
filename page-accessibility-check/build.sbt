@@ -1,6 +1,6 @@
 mainClass in (Compile, packageBin) := Some("uk.gov.hmrc.a11y.PageAccessibilityCheck")
 
-assemblyJarName in assembly := "page-accessibility-check.jar"
+assemblyOutputPath in assembly := baseDirectory.value / ".." / "accessibility-assessment-service" / "app" / "resources" / "page-accessibility-check.jar"
 
 lazy val testSuite = (project in file("."))
   .enablePlugins(SbtAutoBuildPlugin)
