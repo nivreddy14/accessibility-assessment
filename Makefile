@@ -1,7 +1,7 @@
 SHELL := /usr/bin/env bash
 PYTHON_VERSION := $(shell cat .python-version)
 
-.PHONY: check_docker copy_files clean_local build_local run_local stop_local build authenticate_to_artifactory push_image prep_version_incrementor clean help compose build_page_accessibility_check
+.PHONY: check_docker copy_files clean_local build_local run_local stop_local build authenticate_to_artifactory push_image prep_version_incrementor clean help compose 
 .DEFAULT_GOAL := help
 
 copy_files: ## Copies files required for building image
@@ -15,7 +15,7 @@ clean_local: stop_local ## Clean up local environment
 	@docker rmi -f accessibility-assessment:SNAPSHOT
 	@rm -rf docker/files/accessibility-assessment-service
 
-build_local: clean_local build_page_accessibility_check copy_files ## Builds the accessibility-assessment image locally
+build_local: clean_local copy_files ## Builds the accessibility-assessment image locally
 	@echo '********** Building docker image for local use ************'
 	@docker build --progress=plain --no-cache --tag accessibility-assessment:SNAPSHOT docker \
  	|| (echo "Build failed. Removing files used for building"; rm -rf docker/files/accessibility-assessment-service; exit 1)
@@ -30,11 +30,7 @@ stop_local: ## Stops the a11y container
 	@echo '********** Stopping a11y container running locally ************'
 	@docker stop a11y || (echo "a11y container not running. Nothing to stop."; exit 0)
 
-build_page_accessibility_check:
-	@cd page-accessibility-check && \
-		sbt 'set test in assembly := {}' clean assembly
-
-build: build_page_accessibility_check copy_files prep_version_incrementor ## Build the docker image
+build: copy_files prep_version_incrementor ## Build the docker image
 	@echo '********** Building docker image ************'
 	@pipenv run prepare-release
 	@umask 0022

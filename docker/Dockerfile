@@ -1,4 +1,21 @@
+# syntax=docker/dockerfile:1
 ARG DOCKERHUB=dockerhub.tax.service.gov.uk
+
+FROM amazonlinux as page-accessibility-check
+# https://www.scala-sbt.org/1.x/docs/Installing-sbt-on-Linux.html#Red+Hat+Enterprise+Linux+and+other+RPM-based+distributions
+RUN yum install -y java-1.8.0-openjdk-devel
+RUN curl -L https://www.scala-sbt.org/sbt-rpm.repo > /etc/yum.repos.d/sbt-rpm.repo
+RUN yum install -y sbt git
+COPY page-accessibility-check /page-accessibility-check
+WORKDIR /page-accessibility-check
+RUN git init .
+RUN git config --global user.email "you@example.com"
+RUN git config --global user.name "Your Name"
+RUN git add .
+RUN git commit -m "satisfy autobuild plugin"
+RUN sbt 'set test in assembly := {}' clean assembly
+
+
 FROM ${DOCKERHUB}/selenium/node-chrome:3.141.59-20201119
 
 ENV CAPTURE_ALL_PAGES false
@@ -15,6 +32,8 @@ WORKDIR ${HOME}
 
 COPY --chown=seluser:seluser files/start.sh ${HOME}/start.sh
 COPY --chown=seluser:seluser files/accessibility-assessment-service ${HOME}/accessibility-assessment-service
+COPY --chown=seluser:seluser --from=page-accessibility-check /page-accessibility-check.jar \
+      ${HOME}/accessibility-assessment-service/app/resources/page-accessibility-check.jar
 
 RUN sudo chmod 755 ${HOME}/start.sh \
       && sudo chmod -R 755 ${HOME}/accessibility-assessment-service \
